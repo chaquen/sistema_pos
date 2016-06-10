@@ -5,7 +5,7 @@ include("../utilidades/utilidades.php");
 if(isset($_POST['datos'])){
     $post=  json_decode($_POST['datos']);
     $operacion=$post->operacion;
-    $objeto= new MyClase();
+    $objeto= new MyClase();//Mi clase es una clase sin implementar que me sirve de modelo 
     /*
         AQUI INSTANCIO EL OBJETO QUE DESEO USAR EN EL CONTROLADOR
      */
