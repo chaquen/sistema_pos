@@ -1,6 +1,6 @@
 <?php
-require 'datos/modelo.php';
-class SALIDA extends ModeloBaseDeDatos{
+require '../datos/modelo.php';
+class Salida extends ModeloBaseDeDatos{
     private $TABLA='salida';
     public $valor_id_salida;
     public $valor_codigo_salida; 
@@ -37,9 +37,11 @@ class SALIDA extends ModeloBaseDeDatos{
         $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."_devolucion('$this->valor_id_salida','$fk_id_detalle_proveedor_producto','$cantida_devuelta','$comentario_devolucion') as respuesta";
                 
         if($this->ejecutar_funcion_sql()){
-            return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
+            //return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
+            return TRUE;
         }else{
-            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+            //return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+            return FALSE;
         }
     } 
     //$obj=> array("id_empresa"=>'mi valor uno',"nombre_empresa"=>'mi valor dos')

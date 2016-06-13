@@ -1,5 +1,5 @@
 <?php
-require 'datos/modelo.php';
+require '../datos/modelo.php';
 class MyClase extends ModeloBaseDeDatos{
     private $TABLA='MyTabla';
 
@@ -8,7 +8,7 @@ class MyClase extends ModeloBaseDeDatos{
         
     }
     
-    //$obj=> array("id_empresa"=>'mi valor uno',"nombre_empresa"=>'mi valor dos')
+
     function crear_registro(){
         
         $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."() as respuesta";
@@ -19,7 +19,7 @@ class MyClase extends ModeloBaseDeDatos{
             return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
         }
     }    
-    //$obj=> array("id_empresa"=>'mi valor uno',"nombre_empresa"=>'mi valor dos')
+
     function obtener_registro_todos_los_registros(){
         
         $this->sentencia_sql="CALL pa_consultar_".$this->TABLA."()";
@@ -42,7 +42,7 @@ class MyClase extends ModeloBaseDeDatos{
     }
     function actualizar_recurso(){
         
-        $this->sentencia_sql="SELECT fun_actualizar_usuario()";
+        $this->sentencia_sql="SELECT fun_actualizar_".$this->TABLA."()";
         if($this->ejecutar_funcion_sql()){
             return array("codigo"=>"00","mensaje"=>  "El registro en la tabla $this->TABLA ha sido actualizado","respuesta"=>TRUE);
         }else{

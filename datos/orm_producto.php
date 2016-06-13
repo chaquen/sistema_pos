@@ -1,5 +1,5 @@
 <?php
-require 'datos/modelo.php';
+require '../datos/modelo.php';
 class Producto extends ModeloBaseDeDatos{
     private $TABLA='producto';
     public $valor_id_producto;
@@ -28,7 +28,7 @@ class Producto extends ModeloBaseDeDatos{
         if($this->ejecutar_funcion_sql()){
             return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
         }else{
-            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
         }
     }    
     //$obj=> array("id_empresa"=>'mi valor uno',"nombre_empresa"=>'mi valor dos')
@@ -60,5 +60,12 @@ class Producto extends ModeloBaseDeDatos{
             return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
         }
     }
-    
+    function asociar_producto_proveedor($idProducto,$idproveedor){
+        $this->sentencia_sql="SELECT fun_asociar_producto_con_proveedor('$idProducto','$idproveedor') as respuesta";
+        if ($this->ejecutar_funcion_sql()){
+           return array("codigo"=>"00","mensaje"=>  "Producto asociado exitosamente ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
+        }else{
+           return array("codigo"=>"00","mensaje"=>  "Opps! ha ocurriod un error al intentar asociar este producto","respuesta"=>FALSE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
+        }
+    }
 }

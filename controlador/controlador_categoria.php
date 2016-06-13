@@ -1,16 +1,10 @@
 <?php
 header('Content-Type:text/html; Charset="UTF-8"');    
-include("../datos/modelo.php");
-include("../utilidades/utilidades.php");
+include("../datos/orm_categoria.php");
 if(isset($_POST['datos'])){
     $post=  json_decode($_POST['datos']);
     $operacion=$post->operacion;
-    $objeto= new MyClase();//Mi clase es una clase sin implementar que me sirve de modelo 
-    /*
-        AQUI INSTANCIO EL OBJETO QUE DESEO USAR EN EL CONTROLADOR
-     */
-    
-    $respuestaServidor=new formatoRespuestaServidor();
+    $objeto= new Categoria();//Mi clase 
     switch($operacion){
         case "crear":
             
@@ -22,6 +16,8 @@ if(isset($_POST['datos'])){
              * $post a la proiedad datos ejemplo
              * $post->datos->miDatoEnviadoDesdeElCliente
              */
+            $objeto->valor_nombre_categoria=trim($post->datos->nombre_categoria);
+            $objeto->valor_descripcion_categoria=trim($post->datos->descripcion_categoria);
             echo json_encode($objeto->crear_registro());
             
             break;
@@ -34,6 +30,9 @@ if(isset($_POST['datos'])){
              * $post a la proiedad datos ejemplo
              * $post->datos->miDatoEnviadoDesdeElCliente
              */
+            $objeto->valor_nombre_categoria=trim($post->datos->id_categoria);
+            $objeto->valor_nombre_categoria=trim($post->datos->nombre_categoria);
+            $objeto->valor_descripcion_categoria=trim($post->datos->descripcion_categoria);
             echo json_encode($objeto->actualizar_recurso());
             break;
         case "eliminar":
@@ -46,15 +45,16 @@ if(isset($_POST['datos'])){
              * $post a la proiedad datos ejemplo
              * $post->datos->miDatoEnviadoDesdeElCliente
              */
+            $objeto->valor_nombre_categoria=trim($post->datos->id_categoria);
             echo json_encode($objeto->eliminar_registro());
             break;
         case "consultar":
             echo json_encode($objeto->obtener_registro_todos_los_registros());
             break;
         default :
-            echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor defina una operacion o agrege una opcion en el swicth"));
+            echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor defina una operacion o agrege una opcion en el swicth","codigo"=>"00"));
             break;
     }
 }else{
-    echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor ingrese datos en la peticion"));
+    echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor ingrese datos en la peticion","codigo"=>"00"));
 }

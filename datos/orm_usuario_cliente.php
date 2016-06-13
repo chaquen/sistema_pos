@@ -1,5 +1,5 @@
 <?php
-require 'datos/modelo.php';
+require '../datos/modelo.php';
 class UsuarioCliente extends ModeloBaseDeDatos{
     public $TABLA='cliente';
     public $valor_id_usuario;

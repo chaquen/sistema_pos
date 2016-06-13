@@ -1,5 +1,5 @@
 <?php
-require 'datos/modelo.php';
+require '../datos/modelo.php';
 class Proveedor extends ModeloBaseDeDatos{
     private $TABLA='proveedor';
     public $valor_id_proveedor;
@@ -20,7 +20,7 @@ class Proveedor extends ModeloBaseDeDatos{
         if($this->ejecutar_funcion_sql()){
             return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
         }else{
-            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
         }
     }    
     //$obj=> array("id_empresa"=>'mi valor uno',"nombre_empresa"=>'mi valor dos')

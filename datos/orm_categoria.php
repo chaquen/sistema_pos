@@ -1,7 +1,7 @@
 <?php
-require 'datos/modelo.php';
+require '../datos/modelo.php';
 class Categoria extends ModeloBaseDeDatos{
-   
+    public $TABLA='categoria_producto';
     public $valor_id_categoria;
     public $valor_nombre_categoria;
     public $valor_descripcion_categoria;
@@ -23,9 +23,9 @@ class Categoria extends ModeloBaseDeDatos{
             //$this->ejecutar_consulta_sql();
             
             if($this->respuesta_funcion->respuesta!=0){
-                return array("codigo"=>"00","mensaje"=>  "Categoria registrada exitosamente","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
+                return array("codigo"=>"01","mensaje"=>  "Categoria registrada exitosamente","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
             }else{
-                return array("codigo"=>"00","mensaje"=>  "Categoria ya existe","respuesta"=>FALSE);
+                return array("codigo"=>"00","mensaje"=>  "Categoria ya existe","respuesta"=>FALSE,"nuevo_registro"=>"0");
             }
             
         }else{
@@ -39,7 +39,7 @@ class Categoria extends ModeloBaseDeDatos{
         
         
         if($this->ejecutar_consulta_sql()){
-            return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE,"valoresConsultados"=>$this->filas_json);
+            return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE,"valores_consultados"=>$this->filas_json);
             
         }else{
             return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);

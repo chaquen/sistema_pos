@@ -1,16 +1,11 @@
 <?php
 header('Content-Type:text/html; Charset="UTF-8"');    
-include("../datos/modelo.php");
-include("../utilidades/utilidades.php");
+include("../datos/orm_my_clase_modelo.php");
 if(isset($_POST['datos'])){
     $post=  json_decode($_POST['datos']);
     $operacion=$post->operacion;
-    $objeto= new MyClase();//Mi clase es una clase sin implementar que me sirve de modelo 
-    /*
-        AQUI INSTANCIO EL OBJETO QUE DESEO USAR EN EL CONTROLADOR
-     */
-    
-    $respuestaServidor=new formatoRespuestaServidor();
+    $objeto= new MyClase();//Mi clase  modelo 
+   
     switch($operacion){
         case "crear":
             
@@ -52,9 +47,9 @@ if(isset($_POST['datos'])){
             echo json_encode($objeto->obtener_registro_todos_los_registros());
             break;
         default :
-            echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor defina una operacion o agrege una opcion en el swicth"));
+            echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor defina una operacion o agrege una opcion en el swicth","codigo"=>"00"));
             break;
     }
 }else{
-    echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor ingrese datos en la peticion"));
+    echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor ingrese datos en la peticion","codigo"=>"00"));
 }

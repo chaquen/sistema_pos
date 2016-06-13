@@ -5,8 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once 'datos/constantes.php';
-require_once 'utilidades/utilidades.php';
+require_once '../datos/constantes.php';
+require_once '../utilidades/utilidades.php';
 abstract class ModeloBaseDeDatos{
 
     public $sentencia_sql;

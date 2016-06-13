@@ -1,5 +1,5 @@
 <?php
-require 'datos/modelo.php';
+require '../datos/modelo.php';
 class Factura extends ModeloBaseDeDatos{
     private $TABLA='factura';
     public $valor_id_factura;
@@ -22,7 +22,7 @@ class Factura extends ModeloBaseDeDatos{
         if($this->ejecutar_funcion_sql()){
             return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
         }else{
-            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
         }
     }    
     //$obj=> array("id_empresa"=>'mi valor uno',"nombre_empresa"=>'mi valor dos')
@@ -43,9 +43,11 @@ class Factura extends ModeloBaseDeDatos{
         
         $this->sentencia_sql="SELECT fun_registrar_detalle_".$this->TABLA."('$this->valor_id_factura','$id_producto','$valor_producto','$descuento') as respuesta";
         if($this->ejecutar_funcion_sql()){
-            return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
+            //return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
+            return TRUE;
         }else{
-            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+            //return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+            return FALSE;
         }
     }
     function eliminar_registro(){
