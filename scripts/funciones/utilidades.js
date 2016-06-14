@@ -111,3 +111,6 @@ function agregarEventoPageShow(funcion){
 function redireccionar(url){
     location.href=url;
 }
+function imprimir(datos){
+    console.log(datos);
+}

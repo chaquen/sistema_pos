@@ -1,5 +1,5 @@
 <?php
-include 'datos/orm_categoria.php';
+include '../datos/orm_categoria.php';
 $c=new Categoria();
 //INSERTAR
 echo "INSERTAR<br>";
