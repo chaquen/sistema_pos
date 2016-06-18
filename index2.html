@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Menú Administrador</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="Estilos/Css/menuAdmin.css" />
+                
+        <script src="Estilos/Script/jquery-2.1.3.js" type="text/javascript"></script>
+        <script src="Estilos/Script/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="Estilos/Script/menu.js" type="text/javascript"></script>
+       <script src="scripts/jquery-2.1.3.js" type="text/javascript"></script>
+        <script src="scripts/prototipo/prototipos.js" type="text/javascript"></script>
+        <script src="scripts/funciones/utilidades.js" type="text/javascript"></script>
+        <script src="scripts/funciones/peticiones_ajax.js" type="text/javascript"></script>
+        <script src="scripts/funciones/formularios.js" type="text/javascript"></script>        
+        <script src="scripts/funciones/formatos.js" type="text/javascript"></script>
+        <script src="scripts/CrudBase.js" type="text/javascript"></script>
+        <script src="scripts/menu.js" type="text/javascript"></script>
+        <script src="scripts/categorias.js" type="text/javascript"></script>
+        <script src="scripts/producto.js" type="text/javascript"></script>
+        <script src="scripts/proveedor.js" type="text/javascript"></script>
+        <script src="scripts/entrada.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div id="login">
+            <form>
+                <img src="Imagenes/logo.png" />
+                <ul class="logueo">
+                    <li>
+                        <h2>Bienvenidos al sistema de inventarios</h2>
+                    </li>
+                    <li>
+                        <img src="Imagenes/letras.png" />
+                    </li>
+                    <li>
+                        <h4>Inisio de sesion</h4>
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Nombre de Usuario" />
+                    </li>
+                    <li>
+                        <input type="password" placeholder="Contraseña" />
+                    </li>
+                    <li>
+                        <input type="button" value="Ingresar" id="btnIngresar"/>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <ul class="menuAdm">
+            <li>
+                <h3>Usuarios</h3>
+            </li>
+            <li id="cat">
+                <h3>Categorias</h3>
+                <ul class="subMenu" id="subCategoria">
+                    <li id="busCat">
+                        <h3>Buscar Categoria</h3>
+                    </li>                    
+                    <li id="crearCat">
+                        <h3>Crear Categoria</h3>
+                    </li>
+                    <li id="ediCat">
+                        <h3>Editar Categoria</h3>
+                    </li>
+                    <li id="eliCat">
+                        <h3>Eliminar Categoria</h3>
+                    </li>
+                </ul>
+            </li>
+            <li id="prod">
+                <h3>Productos</h3>
+                <ul class="subMenu" id="subProducto">
+                    <li id="busProd">
+                        <h3>Buscar Productos</h3>
+                    </li>
+                    <li id="crearProd">
+                        <h3>Crear Productos</h3>
+                    </li>
+                    <li id="ediProd">
+                        <h3>Editar Productos</h3>
+                    </li>
+                    <li id="eliProd">
+                        <h3>Eliminar Productos</h3>
+                    </li>
+                </ul>
+            </li>
+            <li id="prov">
+                <h3>Proveedores</h3>
+                <ul class="subMenu" id="subProveedor">
+                    <li id="busProv">
+                        <h3>Buscar Proveedor</h3>
+                    </li>
+                    <li id="crearProv">
+                        <h3>Crear Proveedor</h3>
+                    </li>
+                    <li id="ediProv">
+                        <h3>Editar Proveedor</h3>
+                    </li>
+                    <li id="eliProv">
+                        <h3>Eliminar Proveedor</h3>
+                    </li>
+                </ul>
+            </li>
+            <li id="ent">
+                <h3>Entradas</h3>
+                <ul class="subMenu" id="subEntrada">
+                    <li id="entPed">
+                        <h3>Pedidos</h3>
+                    </li>
+                    <li id="entOt">
+                        <h3>Otros</h3>
+                    </li>
+                </ul>
+            </li>
+            <li id="sal">
+                <h3>Salidas</h3>
+            </li>
+            <li>
+                <h3>Ventas</h3>
+            </li>
+        </ul>
+        
+        <!--Formularios de las Categorias-->
+        
+        <!--Formulario para crear Categorias-->
+        <div id="formCrearCat">
+            <form id="formCrearCategoria">
+                <ul class="formulario">
+                    <li>
+                        <h3>Creacion de categorias</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Nombre Categoria" />
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Descripcion Categoria" />
+                    </li>
+                    <li>
+                        <input id="btnCrearCategoria" type="button" value="Crear" />
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <!--Formulario Para buscar Categorias-->
+        <div  id="formBusCat">
+            <form id="formConsultarCategoria">
+                <ul class="formulario">
+                    <li>
+                        <h3>Buscar Categorias</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Nombre de la Categoria" />
+                    </li>
+                    <li>
+                        <input id="btnBuscarCategoria" type="button" value="Buscar" />
+                    </li>
+                </ul>
+            </form>
+            <div id="divListaRespuestaCategoria">
+                            
+            </div>
+        </div>
+        <!--Formulario para Editat categorias-->
+        <div id="formEdiCat">
+            <form id="formEditarCategoria">
+                <ul class="formulario">
+                   
+                    <li>
+                        <h3>Editar Categorias</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input id="txtNombreBuscarCategoria" type="text" placeholder="Nombre Categoria" />
+                    </li>
+                    <li>
+                        <input id="btnSeleccionarActualizarCategoria" type="button" value="Buscar" />
+                    </li>
+                </ul>
+            </form>
+            <div id="divListarespuestaCategoriaEdicion">
+                
+            </div>
+            <form id="formDatosEdicionCategoria" style="display : none">
+                <ul class="formulario">
+                   
+                    <li>
+                        <h3>Editar Categorias</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input id="txvNuevoNombre" type="text" placeholder="Nombre Categoria" />
+                        <input id="hdMiIdCategoriaEdicion" type="hidden">
+                    </li>
+                    <li>
+                        <input id="txvNuevaDescripcion" type="text" placeholder="Descripcion Categoria" />
+                    </li>
+                    <li>
+                        <input id="btnActualizarCategoria" type="button" value="Editar" />
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <!--Formulario para eliminar categorias-->
+        <div id="formEliCat">
+            <form id="formEliminarCategoria">
+                <ul class="formulario">
+                    <li>
+                        <h3>Eliminar Categorias</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input id="txtNombreBuscarCategoriaEliminar" type="text" placeholder="Nombre de Categoria" />
+                    </li>
+                    <li>
+                        <input  id="btnBuscarCategoriaEliminar" type="button" value="Buscar" />
+                    </li>
+                </ul>
+                <div id="divListaEliminacionCategoria">
+                            
+                </div>
+                
+               
+            </form>
+        </div>
+        
+        <!--Formularios de los Productos-->
+        
+        <!--Formulario para Crear Productos-->
+        <div id="formCrearProd">
+            <form id="formCrearProducto">
+                <ul class="formulario">
+                    <li>
+                        <h3>Crear Productos</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <select id="selCategoriaProducto">
+                            <option>Selecccione la categoria</option>
+                        </select>
+                    </li>
+                    <li>
+                        <input id="txtCodigoBarra" type="text" placeholder="Codigo de barras" />
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Nombre del Producto"/>
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Descripcion" />
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Valor"/>
+                    </li>
+                    <li>
+                        <input id="btnCrearProducto" type="button" value="Crear" />
+                    </li>
+                </ul>
+            </form>
+        </div>
+        
+        <!--Formulario para buscar productos-->
+        <div id="formBusProd">
+            <form>
+                <ul class="formulario">
+                    <li>
+                        <h3>Buscar Productos</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input  type="text" placeholder="Codigo o nombre" />
+                    </li>
+                    <li>
+                        <input  id="btnBuscarProducto" type="button" value="Buscar" />
+                    </li>
+                </ul>
+            </form>
+            <div id="divListaProductos">
+                
+            </div>
+        </div>
+        
+        <!--Formulario para editar productos-->
+        <div id="formEdiProd">
+            <form>
+                <ul class="formulario">
+                    <li>
+                        <h3>Editar Productos</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input id="txtCodigoBarraEdicion" type="text" placeholder="Codigo o Nombre"/>
+                    </li>
+                    <li>
+                        <input id="busEdicionProd" type="button" value="Buscar" />
+                    </li>
+                </ul>
+            </form>
+            <div id="edicionProd"></div>
+        </div>
+        
+        <!--Formulario para Eliminar Productos-->
+        <div id="formEliProd">
+            <form>
+                <ul class="formulario">
+                    <li>
+                        <h3>Eliminar Productos</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input  id="txtBuscarEliminarProducto" type="text" placeholder="Codigo o Nombre" />
+                    </li>
+                    <li>
+                        <input id="btnBuscarElimnarProducto" type="button" value="Buscar" id="btnEliminarProd" />
+                    </li> 
+                </ul>
+            </form>
+            <div id="eliminarProd"></div>
+        </div>
+        
+        <!--Formularios de Proveedores-->
+        
+        <!--Formulario para crear proveedores-->
+        <div id="formCrearProv">
+            <form id="formRegistroProveedor">
+                <ul class="formulario">
+                    <li>
+                        <h3>Crearcion de Proveedores</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Nombre" />
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Nit" />
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Nombre contacto" />
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Telefono" />
+                    </li>
+                    <li>
+                        <input type="text" placeholder="E-mail" />
+                    </li>
+                    <li>
+                        <input id="btnCrearProveedor" type="button" value="Crear" />
+                    </li>
+                </ul>
+            </form>
+        </div>
+        
+        <!--Formulario para buscar proveedores-->
+        <div id="formBusProv">
+            <form id="formConsultarProveedor">
+                <ul class="formulario">
+                    <li>
+                        <h3>Buscar Proveedores</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Nombre o nit" />
+                    </li>
+                    <li>
+                        <input id="btnBuscarProveedor" type="button" value="Buscar" />
+                    </li>                   
+                </ul>
+            </form>
+            <div id="divListaProveedores">
+                
+            </div>
+        </div>
+        
+        <!--Formulario para editar Proveedores-->
+        <div id="formEdiProv">
+            <form id="formBuscarEditarProveedor">
+                <ul class="formulario">
+                    <li>
+                        <h3>Editar Proveedores</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input id="txtBuscarProveedorEdicion" type="text" placeholder="Nombre o nit" />
+                    </li>
+                    <li>
+                        <input id="btnBuscarEditarProveedor" type="button" value="Buscar" />
+                    </li>                   
+                </ul>
+            </form>
+            <div id="divListaEdicionProveedores">
+                
+            </div>
+        </div>
+        
+        <!--Formulario para Eliminar Proveedores-->
+        <div id="formEliProv">
+            <form id="formBuscarElimiarProveedor">
+                <ul class="formulario">
+                    <li>
+                        <h3>Eliminar Proveedores</h3>
+                        <h4 class="salir">x</h4>
+                    </li>
+                    <li>
+                        <input id="txtBuscarProveedorEliminar" type="text" placeholder="Nombre o nit" />
+                    </li>
+                    <li>
+                        <input id="btnBuscarEliminarProveedor" type="button" value="Buscar" />
+                    </li>                   
+                </ul>
+            </form>
+            <div id="divListaEliminarProveedores">
+                
+            </div>
+        </div>
+        
+        <!--Formularios de las Entradas de los productos-->
+        <!--Formulario para Crear Entradas-->
+        <div id="formEntPed">
+            <form id="formEntrada" class="entradas">
+                <ul>
+                    <li>
+                        <h2>Ingreso Pedidos</h2>
+                        <h4 class="salirEnt">x</h4>
+                    </li>
+                    <li>
+                        <input id="txtNitProveedorEntrada" type="text" placeholder="Nit Proveedor" />
+                        <h3 id="txtNombreProveedorEntrada">Nombre del Proveedor</h3>
+                        <input id="txtCodigoFactura" type="text" placeholder="Numero de Factura" />
+                    </li>
+                    <li>
+                        <input id="txtCodigoProducto" type="text" placeholder="Codigo del Producto" />
+                        <h3 id="txtNombreProductoEntrada">Nombre del Producto</h3>
+                        <input id="txtCantidadIngresar" type="text" placeholder="Cantidad a ingresar" />
+                    </li>
+                    <li>
+                        <input id="btnAgregarAListaEntrada" type="button" value="Agregar Producto" />
+                    </li>
+                </ul>
+                <table >
+                    <tr>
+                        <td>Codigo</td>
+                        <td>Nombre producto</td>
+                        <td>Cantidad</td>
+                    </tr>
+                    <tbody id="tblListaEntrada">
+                        
+                    </tbody>
+                    
+                </table>
+                <input id="btnIngresarEntrada" type="button" value="Ingresar Mercancia" class="btnEnt"/>
+            </form>
+        </div>
+        
+        <!--Formulario para el ingreso de mercancia por otros conceptos-->
+        <div id="formEntOt">
+            <form class="entradas">
+                <ul>
+                    <li>
+                        <h2>Ingreso de Mercancia por otros motivos</h2>
+                        <h4 class="salirEnt">x</h4>
+                    </li>
+                    <li>
+                        <select>
+                            <option>--Seleccione el motivo--</option>
+                            <option>Devolucion</option>
+                            <option>Obsequios</option>
+                            <option>Cambios</option>
+                        </select>
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Nit Proveedor" />
+                        <h3>Nombre del Proveedor</h3>
+                        <input type="text" placeholder="Numero de Factura" />
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Codigo del Producto" />
+                        <h3>Nombre del Producto</h3>
+                        <input type="text" placeholder="Cantidad a ingresar" />
+                    </li>
+                    <li>
+                        <input type="button" value="Agregar Producto" />
+                    </li>
+                </ul>
+                <table>
+                    <tr>
+                        <td>Codigo</td>
+                        <td>Nombre producto</td>
+                        <td>Cantidad</td>
+                    </tr>
+                    <tr>
+                        <td>Codigo</td>
+                        <td>Nombre producto</td>
+                        <td>Cantidad</td>
+                    </tr>
+                    <tr>
+                        <td>Codigo</td>
+                        <td>Nombre producto</td>
+                        <td>Cantidad</td>
+                    </tr>
+                </table>
+                <input type="button" value="Ingresar Mercancia" class="btnEnt" />
+            </form>
+        </div>
+        
+        <!--Formulario para el Salida de mercancia-->
+        <div id="formSal">
+            <form class="entradas">
+                <ul>
+                    <li>
+                        <h2>Salida de mercancia</h2>
+                        <h4 class="salirEnt">x</h4>
+                    </li>
+                    <li>
+                        <select>
+                            <option>--Seleccione el motivo--</option>
+                            <option>Devolucion</option>
+                            <option>Obsequios</option>
+                            <option>Vencimiento</option>
+                            <option>Averia</option>
+                        </select>
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Nit Proveedor o cedula del cliente" />
+                        <h3>Nombre del Proveedor o cliente</h3>
+                        <input type="text" placeholder="Numero de Factura" />
+                    </li>
+                    <li>
+                        <input type="text" placeholder="Codigo del Producto" />
+                        <h3>Nombre del Producto</h3>
+                        <input type="text" placeholder="Cantidad a ingresar" />
+                    </li>
+                    <li class="Obs">
+                        <input type="text" placeholder="Obesrvaciones" />
+                    </li>
+                    <li>
+                        <input type="button" value="Agregar Producto" />
+                    </li>
+                </ul>
+                <table>
+                    <tr>
+                        <td>Codigo</td>
+                        <td>Nombre producto</td>
+                        <td>Cantidad</td>
+                        <td>Observaciones</td>
+                    </tr>
+                    <tr>
+                        <td>Codigo</td>
+                        <td>Nombre producto</td>
+                        <td>Cantidad</td>
+                        <td>Observaciones</td>
+                    </tr>
+                    <tr>
+                        <td>Codigo</td>
+                        <td>Nombre producto</td>
+                        <td>Cantidad</td>
+                        <td>Observaciones</td>
+                    </tr>
+                </table>
+                <input type="button" value="Salida de mercancia" class="btnEnt"/>
+            </form>
+        </div>
+    </body>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </body>
+</html>

@@ -1,3 +1,4 @@
+
 --Scripts para las funciones y procedimientos de la tabla producto
 --FUNCION PARA REGISTRAR UN PRODUCTO
 DELIMITER //
@@ -24,7 +25,8 @@ CREATE FUNCTION fun_actualizar_producto(idProducto INT,
                                         codigo_producto VARCHAR(20), 
                                         nombre_producto VARCHAR(55), 
                                         descripcion_producto VARCHAR(125),
-                                        fk_id_categoria INT )
+                                        fk_id_categoria INT,
+                                        precio DECIMAL )
  RETURNS INT
 BEGIN
 IF EXISTS(SELECT * FROM producto WHERE IdProducto=idProducto) THEN
@@ -32,7 +34,9 @@ IF EXISTS(SELECT * FROM producto WHERE IdProducto=idProducto) THEN
         SET CodigoProducto= codigo_producto,
             NombreProducto=nombre_producto,
             DescripcionProducto=descripcion_producto,
-            Fk_Id_Categoria=fk_id_categoria;
+            Fk_Id_Categoria=fk_id_categoria,
+            PrecioVentaDefinitivo=precio
+        WHERE IdProducto=idProducto;
         RETURN 1;
 ELSE
 RETURN 0;
@@ -73,17 +77,17 @@ END
 DELIMITER;
 
 --Funcion para asociar un producto con un proveedor
-DELIMITER //
-CREATE FUNCTION fun_asociar_producto_con_proveedor(id_producto,id_proveedor)
-RETURNS INT
-BEGIN
-    IF NOT EXISTS (SELECT * FROM detalle_producto_proveedor WHERE Fk_Id_Producto=id_producto AND Fk_Id_Proveedor=id_proveedor) THEN 
-        INSERT INTO detalle_producto_proveedor(Fk_id_Producto,Fk_Id_Proveedor)
-        VALUES(id_producto,id_proveedor);
-        RETURN LAST_INSERT_ID();
-    ELSE
-     RETURN 0;   
-    END IF;
-END
+    DELIMITER //
+    CREATE FUNCTION fun_asociar_producto_con_proveedor(id_producto INT ,id_proveedor INT)
+    RETURNS INT
+    BEGIN
+        IF NOT EXISTS (SELECT * FROM detalle_producto_proveedor WHERE Fk_Id_Producto=id_producto AND Fk_Id_Proveedor=id_proveedor) THEN 
+            INSERT INTO detalle_producto_proveedor(Fk_id_Producto,Fk_Id_Proveedor)
+            VALUES(id_producto,id_proveedor);
+            RETURN LAST_INSERT_ID();
+        ELSE
+         RETURN 0;   
+        END IF;
+    END
 //
 DELIMITER;

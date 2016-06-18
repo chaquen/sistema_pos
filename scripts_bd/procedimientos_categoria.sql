@@ -64,7 +64,7 @@ DELIMITER //
 CREATE PROCEDURE  pa_consultar_todas_las_categoria_producto ()
 
 BEGIN
-    SELECT * FROM categoria_producto 
+    SELECT * FROM categoria_producto ;
 
 END
 //

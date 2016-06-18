@@ -14,14 +14,19 @@ BEGIN
 END
 DELIMITER;
 --FUNCTION PARA registar una entrada pedido
-DELIMITER//
-CREATE FUNCTION fun_registrar_entrada_pedido(fk_id_entrada INT, fk_id_detalle_producto_proveedor INT, cantidad_entrada INT, precio_proveedorEntrada DECIMAL)
-BEGIN
-    INSERT INTO entrada_pedido (Fk_Id_Entrada, Fk_Id_Detalle_Producto_Proveedor, CantidadEntrada, PrecioProveedorEntrada)
-        VALUES(fk_id_entrada, fk_id_detalle_producto_proveedor, cantidad_entrada, precio_proveedorEntrada);
-    RETURN LAST_INSERT_ID();    
-END
-DELIMITER;
+    DELIMITER//
+    CREATE FUNCTION fun_registrar_entrada_pedido(fk_id_entrada INT, fk_id_detalle_producto_proveedor INT, cantidad_entrada INT, precio_proveedorEntrada DECIMAL)
+    RETURNS INT
+    BEGIN
+        IF NOT EXISTS(SELECT * FROM entradas WHERE IdEntrada=fk_id_entrada) THEN
+            INSERT INTO entrada_pedido (Fk_Id_Entrada, Fk_Id_Detalle_Producto_Proveedor, CantidadEntrada, PrecioProveedorEntrada)
+            VALUES(fk_id_entrada, fk_id_detalle_producto_proveedor, cantidad_entrada, precio_proveedorEntrada);
+            RETURN LAST_INSERT_ID();    
+        ELSE
+            RETURN 0;
+        END IF;
+    END //
+    DELIMITER;
 --FUNCION PARA REGISTRA UNA ENTRADA DEVOLUCION
 DELIMITER//
 CREATE FUNCTION fun_registrar_entrada_devolucion(id_entrada INT,
@@ -31,9 +36,13 @@ CREATE FUNCTION fun_registrar_entrada_devolucion(id_entrada INT,
                                                  cometario_devolucion VARCHAR(256))
 RETURNS INT
 BEGIN
-    INSERT INTO entrada_devolucion (Fk_Id_Detalle_Factura, CantidadDevolucion, EstadoDevolucion, CometarioDevolucion,Fk_id_Entrada)
-        VALUES(fk_id_detalle_factura, cantidad_devolucion, estado_devolucion, cometario_devolucion,id_entrada);
-    RETURN LAST_INSERT_ID();    
+    IF NOT EXISTS(SELECT * FROM entradas WHERE IdEntrada=id_entrada) THEN
+        INSERT INTO entrada_devolucion (Fk_Id_Detalle_Factura, CantidadDevolucion, EstadoDevolucion, CometarioDevolucion,Fk_id_Entrada)
+            VALUES(fk_id_detalle_factura, cantidad_devolucion, estado_devolucion, cometario_devolucion,id_entrada);
+        RETURN LAST_INSERT_ID();    
+     ELSE 
+        RETURN 0;
+     END IF;   
 END
 DELIMITER;
 

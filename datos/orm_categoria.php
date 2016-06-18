@@ -1,5 +1,5 @@
 <?php
-require '../datos/modelo.php';
+
 class Categoria extends ModeloBaseDeDatos{
     public $TABLA='categoria_producto';
     public $valor_id_categoria;
@@ -46,6 +46,39 @@ class Categoria extends ModeloBaseDeDatos{
         }
         
     }
+    function obtener_registro_todos_los_registros_por_id(){
+        
+         //$this->sentencia_sql="CALL pa_consultar_categoria_producto_por_id('$this->valor_id_categoria') ";
+          $this->sentencia_sql="SELECT * from categoria_producto WHERE IdCategoriaProducto='$this->valor_id_categoria'";
+        
+        
+        if($this->ejecutar_consulta_sql()){
+            
+            return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE,"valores_consultados"=>$this->respuesta_funcion);
+            
+        }else{
+            
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
+        }
+        
+    }
+    
+    function obtener_registro_todos_los_registros_por_nombre(){
+        
+         //$this->sentencia_sql="CALL pa_consultar_categoria_producto_por_id('$this->valor_id_categoria') ";
+           $this->sentencia_sql="SELECT * from categoria_producto WHERE NombreCategoriaProducto LIKE '$this->valor_nombre_categoria%'";
+        
+        
+        if($this->ejecutar_consulta_sql()){
+            
+            return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE,"valores_consultados"=>$this->filas_json);
+            
+        }else{
+            
+            return array("codigo"=>"01","mensaje"=>  $this->sentencia_sql,"respuesta"=>FALSE);
+        }
+        
+    }
     function eliminar_registro(){
         $this->sentencia_sql="SELECT fun_actualizar_estado_categoria_producto('$this->valor_id_categoria')";
         if($this->ejecutar_funcion_sql()){
@@ -56,7 +89,7 @@ class Categoria extends ModeloBaseDeDatos{
     }
     function actualizar_recurso(){
         
-        $this->sentencia_sql="SELECT fun_actualizar_categoria_producto('$this->valor_id_categoria','$this->valor_nombre_categoria','$this->valor_descripcion_categoria')";
+         $this->sentencia_sql="SELECT fun_actualizar_categoria_producto('$this->valor_id_categoria','$this->valor_nombre_categoria','$this->valor_descripcion_categoria')";
         if($this->ejecutar_funcion_sql()){
                 return array("codigo"=>"00","mensaje"=>  "Categoria actualizada con exito","respuesta"=>TRUE);
         }else{

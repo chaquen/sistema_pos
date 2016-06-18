@@ -1,6 +1,6 @@
 <?php
 header('Content-Type:text/html; Charset="UTF-8"');    
-include("../datos/orm_my_clase_modelo.php");
+include("../datos/orm_core.php");
 if(isset($_POST['datos'])){
     $post=  json_decode($_POST['datos']);
     $operacion=$post->operacion;

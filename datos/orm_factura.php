@@ -1,5 +1,5 @@
 <?php
-require '../datos/modelo.php';
+
 class Factura extends ModeloBaseDeDatos{
     private $TABLA='factura';
     public $valor_id_factura;

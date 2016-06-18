@@ -1,6 +1,6 @@
 <?php
 header('Content-Type:text/html; Charset="UTF-8"');    
-include("../datos/orm_categoria.php");
+include("../datos/orm_core.php");
 if(isset($_POST['datos'])){
     $post=  json_decode($_POST['datos']);
     $operacion=$post->operacion;
@@ -22,7 +22,9 @@ if(isset($_POST['datos'])){
             $objeto->valor_codigo_producto=trim($post->datos->codigo_producto);
             $objeto->valor_descripcion_producto=trim($post->datos->descripcion_producto);
             $objeto->valor_fk_id_categoria=trim($post->datos->id_categoria);
+            
             echo json_encode($objeto->crear_registro());
+            
             
             break;
         case "actualizar":
@@ -39,6 +41,7 @@ if(isset($_POST['datos'])){
             $objeto->valor_codigo_producto=trim($post->datos->codigo_producto);
             $objeto->valor_descripcion_producto=trim($post->datos->descripcion_producto);
             $objeto->valor_fk_id_categoria=trim($post->datos->id_categoria);
+            $objeto->valor_precio_venta=trim($post->datos->precio);
             echo json_encode($objeto->actualizar_recurso());
             break;
         case "eliminar":
@@ -56,6 +59,11 @@ if(isset($_POST['datos'])){
             break;
         case "consultar":
             echo json_encode($objeto->obtener_registro_todos_los_registros());
+            break;
+        case "consultarporcodigo":
+            $objeto->valor_codigo_producto=trim($post->datos->codigo);
+            echo json_encode($objeto->obtener_registro_todos_los_registros_por_codigo());
+            
             break;
         case "asociar":
             echo json_encode($objeto->asociar_producto_proveedor($post->datos->id_producto, $post->datos->id_proveedor));

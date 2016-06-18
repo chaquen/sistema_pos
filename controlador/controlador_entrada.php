@@ -1,6 +1,7 @@
 <?php
 header('Content-Type:text/html; Charset="UTF-8"');    
-include("../datos/orm_my_clase_modelo.php");
+
+include("../datos/orm_core.php");
 if(isset($_POST['datos'])){
     $post=  json_decode($_POST['datos']);
     $operacion=$post->operacion;
@@ -17,27 +18,51 @@ if(isset($_POST['datos'])){
              * $post a la proiedad datos ejemplo
              * $post->datos->miDatoEnviadoDesdeElCliente
              */
+            //var_dump($post);
             $objeto->valor_codigo_entrada=trim($post->datos->codigo_entrada);
             $objeto->valor_fecha_entrada=trim($post->datos->hora_cliente);
             $objeto->valor_fk_id_usuario_empleado=trim($post->datos->id_empleado);
+            
             $r=$objeto->crear_registro();
-            $objeto->valor_id_entrada=$r["nuevo_registro"];
+            $id=$r["nuevo_registro"];
+            //var_dump($id);
             if($r["respuesta"]){
                 /*REGISTRO DEL DETALLE*/
+                /**
+                 * AQUI REGISTRAR EL DETALLE DEL PRODUCTO PROVEEDOR
+                 */
                 $i=0;
-                $res=array();
+                $res=array("mensaje"=>"Pedido registrado","respuesta"=>true);
+                
                 foreach ($post->datos->lista_pedido as $key => $value) {
-                    if($objeto->crear_pedido($value->fk_id_detalle_producto_proveedor, $value->cantidad_entrada, $value->precio_proveedorEntrada)){
-                        $res[$i]=array("respuesta"=>TRUE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"00");
-                        $i++;
-                    }else{
-                        $res[$i]=array("respuesta"=>FALSE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"00");
-                        $i++;
-                        //No se ha registrao detalle pedido
+                            
+                    
+                    
+                   $p=new Producto();
+                    $y=$p->asociar_producto_proveedor($value->IdProducto, $post->datos->id_proveedor);
+                    
+                               //echo $objeto->sentencia_sql;
+                    if($y["respuesta"]){
+                         //fun_registrar_entrada_pedido('','14', '0', '123')   
+                        if($objeto->crear_pedido($id,$y["nuevo_registro"], $value->cantidad_entrada, $value->precio_precio_entrada,$value->IdProducto)){
+                    
+                            $res["items"][$i]=array("respuesta"=>TRUE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"00");
+                            $i++;
+                        }else{
+                    
+                            $res["items"][$i]=array("respuesta"=>FALSE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"01");
+                            $i++;
+                            //No se ha registrao detalle pedido
+                        }
+                        
                     }
+                
+                    
+                    
                 }
                 echo json_encode($res);
-            }else{
+            }
+            else{
                 echo json_encode($r);
             }
             
@@ -70,6 +95,56 @@ if(isset($_POST['datos'])){
                         $i++;
                         //No se ha registrao detalle pedido
                     }
+                }
+                echo json_encode($res);
+            }else{
+                echo json_encode($r);
+            }
+            
+            break;
+        case "crear":
+            /*
+             * AQUI DOY VALOR A CADA UNA DE LAS PROPIEDADES DE LA CLASE PARA INSERTAR LOS VALORES
+             */
+            /*
+             * Para acceder a cada una de las propiedaes enviadas en el metodo POST se debe acceder desde objeto 
+             * $post a la proiedad datos ejemplo
+             * $post->datos->miDatoEnviadoDesdeElCliente
+             */
+            //var_dump($post);
+            $objeto->valor_codigo_entrada=trim($post->datos->codigo_entrada);
+            $objeto->valor_fecha_entrada=trim($post->datos->hora_cliente);
+            $objeto->valor_fk_id_usuario_empleado=trim($post->datos->id_empleado);
+            $r=$objeto->crear_registro();
+            $objeto->valor_id_entrada=$r["nuevo_registro"];
+            
+            if($r["respuesta"]){
+                /*REGISTRO DEL DETALLE*/
+                /**
+                 * AQUI REGISTRAR EL DETALLE DEL PRODUCTO PROVEEDOR
+                 */
+                $i=0;
+                $res=array();
+                foreach ($post->datos->lista_pedido as $key => $value) {
+                            
+                    
+                    
+                    
+                    $y=$objeto->asociar_producto_proveedor($value->IdProducto, $post->datos->id_proveedor);
+                    if($y["respuesta"]){
+                        
+                        if($objeto->crear_pedido($y["nuevo_registro"], $value->cantidad_entrada, $value->precio_proveedorEntrada)){
+                            $res[$i]=array("respuesta"=>TRUE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"00");
+                            $i++;
+                        }else{
+                            $res[$i]=array("respuesta"=>FALSE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"00");
+                            $i++;
+                            //No se ha registrao detalle pedido
+                        }
+                    }
+                
+                    
+                    
                 }
                 echo json_encode($res);
             }else{

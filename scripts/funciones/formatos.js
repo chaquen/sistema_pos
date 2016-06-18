@@ -136,7 +136,13 @@ function devolverValoresServidorConsultar(rs){
         
         var d=eval(rs);
         d.valores_consultados=eval(d.valores_consultados);
-        d.tam=Object.keys(d.valores_consultados).length;
+        console.log(d);
+        if(d.valores_consultados){
+            d.tam=Object.keys(d.valores_consultados).length;
+        }else{
+            d.tam=0;
+        }
+        
         return d;
 }
 /*FUNCION QUE DA FORMATO A UNA RESPUESTA DEL SERVIDOR DE TIPO REGISTRO*/

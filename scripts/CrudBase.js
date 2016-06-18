@@ -3,7 +3,7 @@
  * {datos} objeto con la estructira que voy a  enviaren la peticion HTTP
  * {funcion_depues} funccion que se realizara despues de recibir la respuesta del servidor
  * */    
-function registrarDato(evento_server,datos,funcion_despues){
+function registrarDato(evento_server,datos,funcion_despues,form){
     
     
     if(datos){
@@ -16,7 +16,16 @@ function registrarDato(evento_server,datos,funcion_despues){
             console.log(r.mensaje);
             console.log(r.respuesta);
             console.log(r.nuevo_registro);
-            funcion_despues(r);
+            if(r.respuesta){
+                if(form!=undefined){
+                    limpiarFormulario(form);
+                }
+                 
+                 funcion_despues(r);
+            }else{
+                mostrarMensaje({mensaje:r.mensaje});
+            }
+            
         }).fail(function(){});
     
     }else{
@@ -29,6 +38,7 @@ function registrarDato(evento_server,datos,funcion_despues){
  * {datos} objeto con la estructira que voy a  enviaren la peticion HTTP
  * {funcion_depues} funccion que se realizara despues de recibir la respuesta del servidor*/    
 function consultarDatos(evento_server,datos,funcion_despues){
+    
     var miAjax=new miObjetoAjax(evento_server,datos);
     miAjax.peticion_ajax();
     
@@ -38,8 +48,8 @@ function consultarDatos(evento_server,datos,funcion_despues){
         console.log(r.mensaje);
         console.log(r.respuesta);
         console.log(r.valores_consultados);
-        console.log(r.tam);
-        console.log(r.valores_consultados.length);
+        //console.log(r.tam);
+        //console.log(r.valores_consultados.length);
         funcion_despues(r);
     }).fail(function(){});
     
@@ -86,7 +96,12 @@ function eliminarDato(evento_server,datos,funcion_despues){
             console.log(r.mensaje);
             console.log(r.respuesta);
             console.log(r.nuevo_registro);
-            funcion_despues(r);
+            if(r.respuesta){
+                funcion_despues(r);
+            }else{
+                mostrarMensaje("No hemos podido eliminar el dato");
+            }
+            
         }).fail(function(){});
     
     }else{

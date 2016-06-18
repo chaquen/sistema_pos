@@ -1,5 +1,5 @@
 <?php
-require '../datos/modelo.php';
+
 class MyClase extends ModeloBaseDeDatos{
     private $TABLA='MyTabla';
 

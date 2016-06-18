@@ -1,5 +1,5 @@
 <?php
-require '../datos/modelo.php';
+
 class Salida extends ModeloBaseDeDatos{
     private $TABLA='salida';
     public $valor_id_salida;

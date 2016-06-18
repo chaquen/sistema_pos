@@ -1,5 +1,5 @@
 <?php
-require '../datos/modelo.php';
+
 class Entrada extends ModeloBaseDeDatos{
     private $TABLA='entrada';
     public $valor_id_entrada;
@@ -19,12 +19,12 @@ class Entrada extends ModeloBaseDeDatos{
         if($this->ejecutar_funcion_sql()){
             return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
         }else{
-            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
         }
     }  
-    function crear_pedido($fk_id_detalle_producto_proveedor, $cantidad_entrada, $precio_proveedorEntrada){
+    function crear_pedido($id,$fk_id_detalle_producto_proveedor, $cantidad_entrada, $precio_proveedorEntrada,$id_producto){
         
-        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."_pedido('$this->valor_id_entrada','$fk_id_detalle_producto_proveedor', '$cantidad_entrada', '$precio_proveedorEntrada') as respuesta";
+        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."_pedido('$id','$fk_id_detalle_producto_proveedor', '$cantidad_entrada', '$precio_proveedorEntrada','$id_producto') as respuesta";
                 
         if($this->ejecutar_funcion_sql()){
             //return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);

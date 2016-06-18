@@ -1,0 +1,205 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+body {    
+    background-image: url('../Imagenes/fondo.jpg');
+    background-size: 100% 100%;
+}
+.menuAdm {
+    width: 80%;
+    margin: 20px auto 10px auto;
+    padding-bottom: 10px;
+    display: none;
+    
+}
+.menuAdm li {
+    width: 13%;
+    height: 40px;
+    padding-top: 10px;
+    margin: 4px;
+    font-family: kalinga;
+    text-align: center;
+    float: left;
+    cursor: pointer;
+    transition: 0.5s;
+    border: 1px solid background;
+}
+.menuAdm li:hover {
+    margin-top: -2px;
+    background-color: blue;
+    color: white;
+}
+.subMenu {
+    display: none;
+    width: 200px;
+    margin-top: 10px;
+    z-index: 9999;
+    position: absolute;
+}
+.subMenu li {
+    width: 100%;
+    background-color: blue;
+    color: white;
+    margin: 1px;
+}
+div {
+    display: none;
+}
+#login {
+    display: initial;
+    border: none;
+    text-align: center;
+    background-color: rgba(255,255,255,0.8);
+}
+.logueo {
+    width: 500px;
+    padding: 5px 15px 10px 5px;
+    margin: 20px auto 0px auto;
+    text-align: center;
+    color: white;
+    background-color: gray;
+    font-family: kalinga;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.8);
+}
+.logueo li {
+    margin-top: 2px;
+}
+.logueo li input {
+    width: 45%;
+    height: 25px;
+    border-radius: 5px;
+}
+.logueo li input[type=button] {
+    width: 80px;
+    height: 25px;
+    margin-top: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.formulario {
+    width: 300px;
+    padding: 5px 15px 10px 5px;
+    margin: 20px auto 0px auto;
+    border: 1px solid red;
+    margin-top: 100px;
+}
+.formulario li {
+    width: 99%;
+    display: table;
+    margin: auto;
+    text-align: center;
+    padding: 5px;
+    font-family: calibri light;
+}
+.formulario li h3 {
+    float: left;
+    margin-left: 20px;
+}
+.salir {
+    float: right;
+    border-radius: 100%;
+    border: 1px solid red;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.salir:hover {
+    background-color: red;
+    color: white;
+}
+.formulario li input[type=text] {
+    width: 90%;
+    height: 30px;
+    border-radius: 5px;
+}
+.formulario li input[type=button] {
+    width: 80px;
+    height: 25px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.entradas {
+    clear: both;
+    width: 55%;
+    border: 1px solid red;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+    font-family: calibri light;
+    padding-bottom: 10px;
+}
+.entradas ul {
+    width: 90%;
+    margin: auto;
+    display: table;
+}
+.entradas ul li {
+    width: 100%;
+    margin: 2px;
+    display: table;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    
+}
+.entradas li:nth-child(2) {
+    margin-top: 15px;
+}
+.entradas li input {
+    float: left;
+    height: 25px;
+    border: 1px solid red;
+    border-radius: 3px;
+}
+.entradas li input[type=button] {
+    width: 150px;
+    height: 30px;
+    cursor: pointer;
+    border: 1px solid blue;
+    margin-left: 39%;
+}
+.entradas select {
+    height: 25px;
+    border: 1px solid green;
+    border-radius: 3px;
+}
+.entradas li h2 {
+    width: 90%;
+}
+.entradas li h3 {
+    float: left;
+    width: 48%;
+}
+.salirEnt {
+    float: right;
+    border: 1px solid blue;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    margin-top: -30px;
+    cursor: pointer;
+}
+.salirEnt:hover {
+    background-color: blue;
+    color: white;
+}
+.entradas table {
+    width: 100%;
+    display: table;
+    text-align: left;
+    border-collapse: collapse;
+}
+.entradas table td {
+    padding: 3px;    
+}
+.btnEnt {
+    width: 150px;
+    height: 30px;
+    cursor: pointer;
+}
+.Obs input {
+    width: 98.5%;
+}

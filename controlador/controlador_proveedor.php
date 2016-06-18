@@ -1,6 +1,6 @@
 <?php
 header('Content-Type:text/html; Charset="UTF-8"');    
-include("../datos/orm_my_clase_modelo.php");
+include("../datos/orm_core.php");
 if(isset($_POST['datos'])){
     $post=  json_decode($_POST['datos']);
     $operacion=$post->operacion;
@@ -21,7 +21,10 @@ if(isset($_POST['datos'])){
             $objeto->valor_nombre=trim($post->datos->nombre);
             $objeto->valor_nombre_contacto=trim($post->datos->nombre_contacto);
             $objeto->valor_telefono_contacto=trim($post->datos->telefono_contacto);
-            $objeto->valor_correo_contacto=trim($post->datos->correo_contacto);            
+            $objeto->valor_correo_contacto=trim($post->datos->correo_contacto);
+            $objeto->valor_nit=trim($post->datos->nit);
+            $objeto->valor_direccion_contacto=trim($post->datos->direccion);
+            
             echo json_encode($objeto->crear_registro());
             
             break;
@@ -56,6 +59,12 @@ if(isset($_POST['datos'])){
             break;
         case "consultar":
             echo json_encode($objeto->obtener_registro_todos_los_registros());
+            
+            break;
+        case "consultarpornit":
+            $objeto->valor_nit=trim($post->datos->nit);
+            $objeto->valor_nombre=trim($post->datos->nit+'%');
+            echo json_encode($objeto->obtener_registro_todos_los_registros_por_nit());
             break;
         default :
             echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor defina una operacion o agrege una opcion en el swicth","codigo"=>"00"));
