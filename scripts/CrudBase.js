@@ -9,7 +9,6 @@ function registrarDato(evento_server,datos,funcion_despues,form){
     if(datos){
         var miAjax=new miObjetoAjax(evento_server,datos);
         miAjax.peticion_ajax();
-
         miAjax.respuestaServidor.success(function(rs){
             var r=devolverValoresServidorRegistro(rs);
             console.log(r.codigo);
@@ -61,8 +60,9 @@ function consultarDatos(evento_server,datos,funcion_despues){
  * {funcion_depues} funccion que se realizara despues de recibir la respuesta del servidor
  * */
 function editarDato(evento_server,datos,funcion_despues){
-    
+    console.log(datos);
     if(datos){
+        
         var miAjax=new miObjetoAjax(evento_server,datos);
         miAjax.peticion_ajax();
         miAjax.respuestaServidor.success(function(rs){
@@ -84,7 +84,6 @@ function editarDato(evento_server,datos,funcion_despues){
  * {funcion_depues} funccion que se realizara despues de recibir la respuesta del servidor
  *  * 
  * */
-
 function eliminarDato(evento_server,datos,funcion_despues){
     
     if(datos){

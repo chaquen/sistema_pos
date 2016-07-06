@@ -6,7 +6,7 @@ class Entrada extends ModeloBaseDeDatos{
     public $valor_codigo_entrada;
     public $valor_fecha_entrada;
     public $valor_fk_id_usuario_empleado;
-
+    public $valor_tipo_entrada;
     public function __construct() {
         
     }
@@ -14,7 +14,7 @@ class Entrada extends ModeloBaseDeDatos{
     //$obj=> array("id_empresa"=>'mi valor uno',"nombre_empresa"=>'mi valor dos')
     function crear_registro(){
         
-        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."('$this->valor_codigo_entrada','$this->valor_fecha_entrada', '$this->valor_fk_id_usuario_empleado') as respuesta";
+        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."('$this->valor_codigo_entrada','$this->valor_fecha_entrada', '$this->valor_fk_id_usuario_empleado','$this->valor_tipo_entrada') as respuesta";
                 
         if($this->ejecutar_funcion_sql()){
             return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
@@ -24,7 +24,11 @@ class Entrada extends ModeloBaseDeDatos{
     }  
     function crear_pedido($id,$fk_id_detalle_producto_proveedor, $cantidad_entrada, $precio_proveedorEntrada,$id_producto){
         
-        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."_pedido('$id','$fk_id_detalle_producto_proveedor', '$cantidad_entrada', '$precio_proveedorEntrada','$id_producto') as respuesta";
+        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."_pedido('$id',"
+                . "                                                       '$fk_id_detalle_producto_proveedor', "
+                . "                                                        '$cantidad_entrada', "
+                . "                                                         '$precio_proveedorEntrada',"
+                . "                                                         '$id_producto') as respuesta";
                 
         if($this->ejecutar_funcion_sql()){
             //return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
@@ -34,9 +38,9 @@ class Entrada extends ModeloBaseDeDatos{
             return FALSE;
         }
     }
-    function crear_devolucion($fk_id_detalle_factura, $cantidad_devolucion, $estado_devolucion, $cometario_devolucion){
+    function crear_devolucion($cantidad_devolucion,  $cometario_devolucion){
         
-        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."_devolucion('$this->valor_id_entrada','$fk_id_detalle_factura', '$cantidad_devolucion','$estado_devolucion', '$cometario_devolucion') as respuesta";
+        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."_otros('$cantidad_devolucion','$cometario_devolucion','$this->valor_id_entrada') as respuesta";
                 
         if($this->ejecutar_funcion_sql()){
             return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
@@ -100,6 +104,14 @@ class Entrada extends ModeloBaseDeDatos{
         }else{
             return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
         }
+    }
+    
+    function eliminar_entrada(){
+        $this->sentencia_sql="DELETE FROM entradas WHERE IdEntrada='$this->valor_id_entrada'";
+        if($this->ejecutar_sentencia_sql()){
+            return TRUE;
+        }
+        return FALSE;
     }
     
 }

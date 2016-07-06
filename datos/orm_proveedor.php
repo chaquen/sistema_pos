@@ -53,17 +53,35 @@ class Proveedor extends ModeloBaseDeDatos{
         
     }
     function eliminar_registro(){
-        $this->sentencia_sql="SELECT fun_actualizar_estado_".$this->TABLA."('$this->valor_id_proveedor')";
-        if($this->ejecutar_funcion_sql()){
+        //$this->sentencia_sql="SELECT fun_actualizar_estado_".$this->TABLA."('$this->valor_id_producto')";
+        $this->sentencia_sql="UPDATE ".$this->TABLA." SET EstadoProveedor='0' WHERE IdProveedor='$this->valor_id_proveedor' ";
+        if($this->ejecutar_sentencia_sql()){
             return array("codigo"=>"00","mensaje"=>  "registro en la tabla $this->TABLA ha sido eliminado","respuesta"=>TRUE);
         }else{
-            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
+        }
+    }
+    function activar_registro(){
+        //$this->sentencia_sql="SELECT fun_actualizar_estado_".$this->TABLA."('$this->valor_id_producto')";
+        $this->sentencia_sql="UPDATE ".$this->TABLA." SET EstadoProveedor='1' WHERE IdProveedor='$this->valor_id_proveedor' ";
+        if($this->ejecutar_sentencia_sql()){
+            return array("codigo"=>"00","mensaje"=>  "registro en la tabla $this->TABLA ha sido activado","respuesta"=>TRUE);
+        }else{
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
         }
     }
     function actualizar_recurso(){
         
-        $this->sentencia_sql="SELECT fun_actualizar_usuario('$this->valor_id_proveedor','$this->nombre','$this->nombre_contacto','$this->valor_telefono_contacto','$this->valor_correo_contacto')";
-        if($this->ejecutar_funcion_sql()){
+        //$this->sentencia_sql="SELECT fun_actualizar_usuario('$this->valor_id_proveedor','$this->valor_nombre','$this->valor_nombre_contacto','$this->valor_telefono_contacto','$this->valor_correo_contacto')";
+        $this->sentencia_sql="UPDATE proveedor SET
+             Nit='$this->valor_nit',
+             DireccionProveedor='$this->valor_direccion_contacto',    
+             NombreProveedor='$this->valor_nombre',
+             NombreContactoProveedor='$this->valor_nombre_contacto', 
+             TelefonoContactoProveedor='$this->valor_telefono_contacto',
+             CorreoContactoProveedor='$this->valor_correo_contacto'
+            WHERE IdProveedor='$this->valor_id_proveedor'";
+        if($this->ejecutar_sentencia_sql()){
             return array("codigo"=>"00","mensaje"=>  "El registro en la tabla $this->TABLA ha sido actualizado","respuesta"=>TRUE);
         }else{
             return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);

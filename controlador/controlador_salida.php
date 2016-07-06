@@ -8,7 +8,6 @@ if(isset($_POST['datos'])){
    
     switch($operacion){
         case "crearventa":
-            
             /*
              * AQUI DOY VALOR A CADA UNA DE LAS PROPIEDADES DE LA CLASE PARA INSERTAR LOS VALORES
              */
@@ -30,7 +29,7 @@ if(isset($_POST['datos'])){
             
             
             break;
-        case "creardevolucion":
+        case "crearotros":
             /*
              * AQUI DOY VALOR A CADA UNA DE LAS PROPIEDADES DE LA CLASE PARA INSERTAR LOS VALORES
              */
@@ -40,23 +39,40 @@ if(isset($_POST['datos'])){
              * $post->datos->miDatoEnviadoDesdeElCliente
              */
             $objeto->valor_codigo_salida=trim($post->datos->codigo_salida);
-            $objeto->valor_fecha_salida=trim($post->datos->hora_cliente);
+            $objeto->valor_fecha_salida=trim($post->hora_cliente);
             $objeto->valor_fk_id_usuario_empleado=trim($post->datos->id_empleado);            
+            $objeto->valor_tipo_salida=trim($post->datos->tipo_salida);
             $r=$objeto->crear_registro();
             $objeto->valor_id_salida=$r["nuevo_registro"];
+            
             if($r["respuesta"]){
                 $i=0;
                 $res=array();
-                foreach ($post->datos->lista_devolucion as $key => $value) {
-                    if($objeto->crear_devolucion($value->fk_id_detalle_proveedor_producto, $value->cantida_devuelta, $value->comentario_devolucion)){
+                $valido=FALSE;
+                foreach ($post->datos->lista_salida as $key => $value) {
+                    
+                    //var_dump($value["IdDetalleProveedor"]);
+                    
+                    if($objeto->crear_salida_otros($value->IdDetalleProveedor, $value->cantidad_salida, $value->comentario,$value->IdProducto)){
                         $res[$i]=array("respuesta"=>TRUE,"mensaje"=>"Devolucion registrada con exito");
                         $i++;
+                        $valido=TRUE;
                     }else{
-                        $res[$i]=array("respuesta"=>FALSE,"mensaje"=>"Devolucion registrada con exito");
+                        $res[$i]=array("respuesta"=>FALSE,"mensaje"=>"No se ha podido registrar este producto");
+                        $objeto->eliminar_salida();
+                        $valido=FALSE;
+                        
                     }
                 }
-                echo json_encode($res);
-            }else{
+                if($valido){
+                    echo json_encode(array("respuesta"=>TRUE,"mensaje"=>"Salida registrada satisfactoriamente","valores_respuestas"=>$res));
+                }else{
+                    
+                    echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"parece que algunos de los productos no se pudieron registrar","valores_respuestas"=>$res));
+                }
+                
+            }
+            else{
                 echo json_encode($r);
             }
             break;
@@ -89,6 +105,7 @@ if(isset($_POST['datos'])){
         case "consultar":
             echo json_encode($objeto->obtener_registro_todos_los_registros());
             break;
+        
         default :
             echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor defina una operacion o agrege una opcion en el swicth","codigo"=>"00"));
             break;

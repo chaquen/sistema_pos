@@ -78,10 +78,12 @@ function limpiarFormulario(idForm){
 /*Funcion para agregar un evento a un elemento del objeto DOCUMENT*/
 function agregarEvento(idElemento,evento,funcion){
     if(document.getElementById(idElemento)!=null){
+        
         console.log("Nombre evento ");
         console.log(evento);
         console.log("Funcion ");
         console.log(funcion);
+        
         document.getElementById(idElemento).addEventListener(evento,funcion,false);
          
         
@@ -117,4 +119,12 @@ function imprimir(datos){
 function mostrarMensaje(dato){
     console.log(dato.mensaje);
     alert(dato.mensaje);
+}
+function validar_igualdad_campos(id1,id2){
+    var v1=document.getElementById(id1);
+    var v2=document.getElementById(id2);
+    if(v1.value==v2.value){
+        return true;
+    }
+    return false;
 }

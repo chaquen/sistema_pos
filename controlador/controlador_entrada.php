@@ -1,12 +1,10 @@
 <?php
 header('Content-Type:text/html; Charset="UTF-8"');    
-
 include("../datos/orm_core.php");
 if(isset($_POST['datos'])){
     $post=  json_decode($_POST['datos']);
     $operacion=$post->operacion;
-    $objeto= new Entrada();//Mi clase  modelo 
-   
+    $objeto= new Entrada();//Mi clase modelo 
     switch($operacion){
         case "crearpedido":
             
@@ -20,12 +18,12 @@ if(isset($_POST['datos'])){
              */
             //var_dump($post);
             $objeto->valor_codigo_entrada=trim($post->datos->codigo_entrada);
-            $objeto->valor_fecha_entrada=trim($post->datos->hora_cliente);
+            $objeto->valor_fecha_entrada=trim($post->hora_cliente);
             $objeto->valor_fk_id_usuario_empleado=trim($post->datos->id_empleado);
-            
+            $objeto->valor_tipo_entrada='Pedido';  
             $r=$objeto->crear_registro();
             $id=$r["nuevo_registro"];
-            //var_dump($id);
+            $objeto->valor_id_entrada=$id;
             if($r["respuesta"]){
                 /*REGISTRO DEL DETALLE*/
                 /**
@@ -33,42 +31,68 @@ if(isset($_POST['datos'])){
                  */
                 $i=0;
                 $res=array("mensaje"=>"Pedido registrado","respuesta"=>true);
-                
+                $valido=FALSE;
                 foreach ($post->datos->lista_pedido as $key => $value) {
                             
                     
-                    
+                   $idProducto= $value->IdProducto;
+                   //var_dump($value);
                    $p=new Producto();
-                    $y=$p->asociar_producto_proveedor($value->IdProducto, $post->datos->id_proveedor);
+                    $y=$p->asociar_producto_proveedor($value->IdProducto, $post->datos->id_proveedor,$value->cantidad_entrada);
                     
-                               //echo $objeto->sentencia_sql;
+                   
                     if($y["respuesta"]){
                          //fun_registrar_entrada_pedido('','14', '0', '123')   
-                        if($objeto->crear_pedido($id,$y["nuevo_registro"], $value->cantidad_entrada, $value->precio_precio_entrada,$value->IdProducto)){
+                        /*echo "ID ENTRADA=>".$id."<br>";
+                        echo "NUEVO REGISTRO=>".$y["nuevo_registro"]."<br>";
+                        echo "CANTIDDA ENTRADA=>".$value->cantidad_entrada."<br>";
+                        echo "PRECIO ENTRADA=>".$value->precio_entrada."<br>";
+                        echo "ID PRODUCTO".$idProducto."<br>";*/
+                        if($objeto->crear_pedido($id,$y["nuevo_registro"], $value->cantidad_entrada, $value->precio_entrada,$idProducto)){
                     
                             $res["items"][$i]=array("respuesta"=>TRUE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"00");
                             $i++;
+                            $valido=TRUE;
                         }else{
                     
-                            $res["items"][$i]=array("respuesta"=>FALSE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"01");
+                            $res["items"][$i]=array("respuesta"=>FALSE,"mensaje"=>$objeto->mensajeDepuracion,"codigo"=>"01");
                             $i++;
+                            $valido=FALSE;
                             //No se ha registrao detalle pedido
                         }
+                                           
                         
+                        
+                    }else{
+                        echo $p->sentencia_sql;
+                        $objeto->eliminar_entrada();
+                        $valido=FALSE;
                     }
                 
                     
                     
                 }
-                echo json_encode($res);
+                    if($valido){
+                            echo json_encode(array("respusta"=>TRUE,
+                                "mensaje"=>"Entrada registrada satisfactoriamente",
+                                "valores_respuestas"=>$res));
+                    }else{
+                            $objeto->eliminar_entrada();
+                            
+                            echo json_encode(array("respuesta"=>FALSE,
+                                "mensaje"=>"Lo sentimos pero no hemos podido crear la asociacion de este producto con el proveedor por favor comunicate con tu administrador",
+                                "valores_respuestas"=>$res));
+                    }
+                //echo json_encode($res);
             }
             else{
+            
                 echo json_encode($r);
             }
             
             
             break;
-        case "creardevolucion":
+        case "crearotros":
             /*
              * AQUI DOY VALOR A CADA UNA DE LAS PROPIEDADES DE LA CLASE PARA INSERTAR LOS VALORES
              */
@@ -78,25 +102,39 @@ if(isset($_POST['datos'])){
              * $post->datos->miDatoEnviadoDesdeElCliente
              */
             $objeto->valor_codigo_entrada=trim($post->datos->codigo_entrada);
-            $objeto->valor_fecha_entrada=trim($post->datos->hora_cliente);
+            $objeto->valor_fecha_entrada=trim($post->hora_cliente);
             $objeto->valor_fk_id_usuario_empleado=trim($post->datos->id_empleado);
+            $objeto->valor_tipo_entrada=$post->datos->tipo_devolucion;
             $r=$objeto->crear_registro();
             $objeto->valor_id_entrada=$r["nuevo_registro"];
             if($r["respuesta"]){
                 /*REGISTRO DEL DETALLE*/
                 $i=0;
                 $res=array();
+                $valido=FALSE;
                 foreach ($post->datos->lista_pedido as $key => $value) {
-                    if($objeto->crear_devolucion($value->fk_id_detalle_factura, $value->cantidad_devolucion, $value->estado_devolucion, $value->cometario_devolucion)){
+                    /*echo "Cantidad entrada ".$value->cantidad_entrada."<br>";
+                    echo "Comentario ".$value->comentario."<br>";
+                    echo "tipoDevolucion ".$post->datos->tipo_devolucion."<br>";*/
+                    if($objeto->crear_devolucion($value->cantidad_entrada,  $value->comentario)){
                         $res[$i]=array("respuesta"=>TRUE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"00");
                         $i++;
+                        $valido=TRUE;
                     }else{
-                        $res[$i]=array("respuesta"=>FALSE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"00");
+                        $res[$i]=array("respuesta"=>FALSE,"mensaje"=>"Error al registrar el detalle","codigo"=>"01");
                         $i++;
+                        $valido=FALSE;
                         //No se ha registrao detalle pedido
                     }
                 }
-                echo json_encode($res);
+                
+                if($valido){
+                    echo json_encode(array("respusta"=>TRUE,"mensaje"=>"Entrada registrada satisfactoriamente","valores_respuestas"=>$res));
+                }else{
+                    $objeto->eliminar_entrada();
+                    echo json_encode(array("respusta"=>FALSE,"mensaje"=>"No hemos podido registrar la entrada por favor comunicate con tu administrador","valores_respuestas"=>$res));
+                }
+                
             }else{
                 echo json_encode($r);
             }

@@ -11,3 +11,10 @@ function obtener_session_storage(nombreSession){
         return false;
     }
 }
+function agregar_session_storage(nombre,datos){
+     sessionStorage.setItem(nombre,JSON.stringify(datos));
+}
+
+function obtener_id_usuario(){
+    return 1;
+}

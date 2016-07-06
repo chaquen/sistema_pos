@@ -1,97 +1,63 @@
-/*Fncion para ingresar*/
-function Ingresar (datos){
+
+var _contexto="_usuario";
+function iniciarLogin(){
+    agregarEvento("btnIngresar","click",Ingresar);
     
-    var us={};
-    var usr=new usuario("ingresarApp",datos);
-    usr.funPeticionAjax();
-    usr.respuestaServidor.success(function(respuestaServidor){
-       
-        if(respuestaServidor.respuesta){
-            var dt=eval(respuestaServidor.datosRespuesta);
-            
-            var h=horaCliente();
-            console.log(dt);
-            var perfil=eval(dt.perfil);
-            console.log(perfil);
-            if(dt.equipo==null){
-                var equipo=eval(dt.equipo);
-                console.log(equipo);
-                us={
-                    idUsuario:perfil[0].IdMiembro,
-                    nombreUsuario:perfil[0].NombresMiembro,
-                    cedula:perfil[0].Documento,
-                    celular:perfil[0].Celular,
-                    telefono:perfil[0].Telefono,
-                    rol:perfil[0].Fk_Id_Rol,
-                    nombreRol:perfil[0].NombreRolAplicacion,
-                    correo:perfil[0].Email,
-                    fechaNacimiento:perfil[0].FechaNacimiento,
-                    horaIngreso:h,
-                    eventos:false,
-                    equipo:false,
-                    categoria_equipo:false,
-                    token:perfil[0].Token_Ingreso
-                };
-            }else{
-                var equipo=eval(dt.equipo);
-                console.log(equipo);
-                us={
-                    idUsuario:perfil[0].IdMiembro,
-                    nombreUsuario:perfil[0].NombresMiembro,
-                    cedula:perfil[0].Documento,
-                    celular:perfil[0].Celular,
-                    telefono:perfil[0].Telefono,
-                    rol:perfil[0].Fk_Id_Rol,
-                    nombreRol:perfil[0].NombreRolAplicacion,
-                    correo:perfil[0].Email,
-                    fechaNacimiento:perfil[0].FechaNacimiento,
-                    horaIngreso:h,
-                    eventos:false,
-                    equipo:equipo[0].Fk_Id_Equipo,
-                    categoria_equipo:equipo[0].Fk_Id_Categoria_Equipo,
-                    token:perfil[0].Token_Ingreso
-                };
-            }
-            
-            console.log(us);          
-            
-                //agrego los eventos de acuerdo al rango
-            
-            
-            
-            agregar_session_storage("ssUsuario",JSON.stringify(us));
-            recargar();
-            
-            
-            
-        }else{
-            
-            mostrarMensaje(respuestaServidor.mensaje);
-            
-        }
-        
-    }).fail(function(){});
+    
+}
+
+/*Fncion para ingresar*/
+function Ingresar (){
+    var dat=obtener_valores_formulario("formIngreso");
+    if(dat!=false){
+        consultarDatos("ingreso"+_contexto,{user_name:dat.Texto[0],clave:dat.Clave},validarIngreso);
+        limpiarFormulario("formIngreso");
+    }else{
+        mostrarMensaje({mensaje:"Por favor ingresa los campos requeridos"});
+    }
+    
+ 
     
     //obtenerMiEquipo(us);
     
+    
+}
+function validarIngreso(datos){
+    console.log(datos);
+    
+       
+        if(datos.respuesta){
+            if(datos.valores_consultados!=undefined){
+                var d=datos.valores_consultados[0];
+                var us={};
+                us.nombre=d.NombreUsuario+" "+d.ApellidoUsuario;
+                us.correo=d.CorreoUsuario;
+                us.id_usuario=d.IdUsuario;
+                agregar_session_storage("ssUsuario",us);
+                location.reload(true);
+            }
+            
+        }else{
+            mostrarMensaje(datos);
+        }
     
 }
 /*Funcion para salir de la aplicacion*/
 function salirApp(){
     if(confirm("Desea salir de la aplicación?")){
         var us=JSON.parse(obtener_session_storage("ssUsuario"));
-        document.getElementById("formIngresar").style.display='block';
-        document.getElementById("infoUsuario").style.display='none';
-        var us=new usuario("cerrarSesion",us.idUsuario);
-        us.funPeticionAjax();
-        us.respuestaServidor.success(function(rs){
-         alert(rs.mensaje);    
-        }).fail(function(){});
+        registrarDato("cerrarSesion"+_contexto,{id_user:us.id_usuario},validarSalidaApp);
+        
+    }
+    
+}
+function validarSalidaApp(datos){
+    if(datos.respuesta){
         sessionStorage.clear();
         location.reload(true);
         //location.href="ingresar.html";       
         console.log(window);
-        //this.close();
+    }else{
+        mostrarMensaje(datos);
     }
-    
 }

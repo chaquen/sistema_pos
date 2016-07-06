@@ -1,5 +1,6 @@
 function funPeticion(){
-    var datos=JSON.stringify(this);
+    
+    var datos=JSON.stringify(this);//convierte a una cadena de texto
     //console.log(datos);
     this.respuestaServidor=$.ajax({
         url:"controlador/controlador_"+this.url+".php",
@@ -10,3 +11,4 @@ function funPeticion(){
    // console.log(this.respuestaServidor);
    
 }
+

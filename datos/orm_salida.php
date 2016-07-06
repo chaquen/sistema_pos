@@ -6,6 +6,8 @@ class Salida extends ModeloBaseDeDatos{
     public $valor_codigo_salida; 
     public $valor_fecha_salida;
     public $valor_fk_id_usuario_empleado;
+    public $valor_tipo_salida;
+
 
     public function __construct() {
         
@@ -14,12 +16,12 @@ class Salida extends ModeloBaseDeDatos{
     //$obj=> array("id_empresa"=>'mi valor uno',"nombre_empresa"=>'mi valor dos')
     function crear_registro(){
         
-        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."('$this->valor_codigo_salida', '$this->valor_fecha_salida', '$this->valor_fk_id_usuario_empleado') as respuesta";
+        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."('$this->valor_codigo_salida', '$this->valor_fecha_salida', '$this->valor_fk_id_usuario_empleado','$this->valor_tipo_salida') as respuesta";
                 
         if($this->ejecutar_funcion_sql()){
             return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
         }else{
-            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
         }
     }
     function crear_venta($id_factura){
@@ -32,9 +34,9 @@ class Salida extends ModeloBaseDeDatos{
             return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
         }
     } 
-    function crear_devolucion($fk_id_detalle_proveedor_producto, $cantida_devuelta, $comentario_devolucion){
+    function crear_salida_otros($fk_id_detalle_proveedor_producto, $cantida_devuelta, $comentario_devolucion,$idProducto){
         
-        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."_devolucion('$this->valor_id_salida','$fk_id_detalle_proveedor_producto','$cantida_devuelta','$comentario_devolucion') as respuesta";
+        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."_otros('$this->valor_id_salida','$fk_id_detalle_proveedor_producto','$cantida_devuelta','$comentario_devolucion','$idProducto') as respuesta";
                 
         if($this->ejecutar_funcion_sql()){
             //return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
@@ -44,6 +46,13 @@ class Salida extends ModeloBaseDeDatos{
             return FALSE;
         }
     } 
+    function eliminar_salida(){
+        $this->sentencia_sql="DELETE FROM ".$this->TABLA." WHERE IdSalidas='$this->valor_id_salida'";
+        if($this->ejecutar_sentencia_sql()){
+            return TRUE;
+        }
+        return FALSE;
+    }
     //$obj=> array("id_empresa"=>'mi valor uno',"nombre_empresa"=>'mi valor dos')
     function obtener_registro_todos_los_registros(){
         

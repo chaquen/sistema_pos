@@ -20,10 +20,10 @@ function iniciar_contexto_categoria(){
     //ejemplo => _
   /*AQUI EL NOMBRE DE LOS BOTONES QUE PERTENECEN A ESTE CONTEXTO*/
  _btnRegistro="btnCrearCategoria";
- _btnConsulta="btnBuscarCategoria";
+ _btnConsulta="btnBusquedaCat";
  _btnActualizar="btnActualizarCategoria";
- _btnSeleccionarActualizarCategoria="btnSeleccionarActualizarCategoria";
- _btnBuscarCategoriaEliminar="btnBuscarCategoriaEliminar";
+ _btnSeleccionarActualizarCategoria="btnEdicionCat";
+ _btnBuscarCategoriaEliminar="btnEliminarCat";
  _btnEliminar="btnEliminarCategoria";
 /*AQUI EL NOMBRE DE LOS FORMULARIOS QUE PERTENECEN A ESTE CONTEXTO*/
  _formRegistro="formCrearCategoria";
@@ -50,15 +50,13 @@ function registrarContextoCategoria(){
         //Creo el objeto que voy a enviar con datos a la peticion
         var datos={nombre_categoria:valores_formulario.Texto[0],descripcion_categoria:valores_formulario.Texto[1]};
         //Invoco mi funcion 
-        registrarDato("crear"+_contexto,datos,mostrarMensaje);
-       
+        registrarDato("crear"+_contexto,datos,mostrarMensaje,_formRegistro);     
         
     }else{
-       mostrarMensaje("por favor ingresa valores");
+       mostrarMensaje({mensaje:"por favor ingresa valores"});
     }
     
 }
-
 /* CONSULTAR CONTEXTO */    
 function consultarContextoCategoria(){
     
@@ -89,43 +87,63 @@ function crearListaCategoria(datos){
 */
 function crearTablaCategoria(datos){
     
-    var div=document.getElementById("divListaRespuestaCategoria");
+    var div=document.getElementById("resBusCat");
     div.innerHTML="";
     var tabla=document.createElement("table");
-    tabla.className="resultadoProd";
-    if(div!=null){
+    tabla.className="resultadoEdicionCat";
+    if(datos.valores_consultados != undefined){
+        $('#resBusCat').fadeIn('slow');
+        var cuerpo=document.createElement("tbody");
+        var fila=document.createElement("tr");
+        var celda=document.createElement("td");
+        celda.innerHTML="Nombre Categoria";        
+        fila.appendChild(celda);
+        var celda=document.createElement("td");
+        celda.innerHTML="Descripcion Categoría";
+        fila.appendChild(celda);
+         var celda=document.createElement("td");
+        celda.innerHTML="Salir";
+        celda.className="salirRes";
+        fila.appendChild(celda);
+        cuerpo.appendChild(fila);
+        
         for(var e in datos.valores_consultados){
             
             if(datos.valores_consultados[e].EstadoCategoriaProducto==1){
                 console.log(datos.valores_consultados[e]);
-                var fila=document.createElement("tr");
-                
+                var fila=document.createElement("tr");                
                 var celda=document.createElement("td");
-                var inp=document.createElement("input");
-                inp.setAttribute("type","text");
-                inp.setAttribute("id","nombrecategoria_"+datos.valores_consultados[e].IdCategoriaProducto);
-                inp.value=datos.valores_consultados[e].NombreCategoriaProducto;
-                celda.appendChild(inp); 
+                celda.setAttribute("id","nombrecategoria_"+datos.valores_consultados[e].IdCategoriaProducto);
+                celda.value=datos.valores_consultados[e].NombreCategoriaProducto;
+                celda.innerHTML=datos.valores_consultados[e].NombreCategoriaProducto;
                 fila.appendChild(celda);
                 
                 var celda=document.createElement("td");
-                var inp=document.createElement("input");
+                celda.setAttribute("id","descripcioncategoria_"+datos.valores_consultados[e].IdCategoriaProducto);
+                celda.value=datos.valores_consultados[e].DescripcionCategoriaProducto;
+                celda.innerHTML=datos.valores_consultados[e].DescripcionCategoriaProducto;
+                fila.appendChild(celda);
+                
+                var celda=document.createElement("td");
+                /*var inp=document.createElement("input");
                 inp.setAttribute("type","text");
-                inp.setAttribute("id","descripiconcategoria_"+datos.valores_consultados[e].IdCategoriaProducto);
+                inp.setAttribute("id","descripcioncategoria_"+datos.valores_consultados[e].IdCategoriaProducto);
+                inp.setAttribute("readonly",true);
                 inp.value=datos.valores_consultados[e].DescripcionCategoriaProducto;
-                celda.appendChild(inp); 
+                celda.appendChild(inp); */
                 fila.appendChild(celda);
                 
-                tabla.appendChild(fila);
+                cuerpo.appendChild(fila);
                 
          
             }
+            tabla.appendChild(cuerpo);
             
         }
         div.appendChild(tabla);
     }
     else{
-        mostrarMensaje({mensaje:"Por favor defina el elemento divListaRespuestaCategoria"});
+        mostrarMensaje({mensaje:"No hay registros con estos parametros de busqueda"});
     }
 }
 /*EDITAR CONTEXTO*/
@@ -155,15 +173,39 @@ function eliminarContextoCategoria(id){
     if(id!=undefined){
         eliminarDato("eliminar"+_contexto,{id_categoria:id},mostrarMensaje);
     }else{
-        mostrarMensaje("por favor ingrese los valores requeridos");
+        mostrarMensaje({mensaje:"por favor ingrese los valores requeridos"});
+    }
+}
+function activarContextoCategoria(id){
+      
+    if(id!=undefined){
+        eliminarDato("activar"+_contexto,{id_categoria:id},mostrarMensaje);
+    }else{
+        mostrarMensaje({mensaje:"por favor ingrese los valores requeridos"});
     }
 }
 function dibujarCategoriaEliminacion(datos){
-    var div=document.getElementById("divListaEliminacionCategoria");
+    var div=document.getElementById("resEliminarCat");
+    div.innerHTML="";
     var tabla=document.createElement("table");
-    tabla.className="resultadoProd";
+    tabla.className="resultadoEdicionCat";
     if(datos!=null){
+        $('#resEliminarCat').fadeIn('slow');
+        var fila=document.createElement("tr");
+        var celda=document.createElement("td");
+        celda.innerHTML="Nombre Categoria";        
+        fila.appendChild(celda);
+        var celda=document.createElement("td");
+        celda.innerHTML="Descripcion Categoría";
+        fila.appendChild(celda);
+        var celda=document.createElement("td");
+        celda.className="salirRes";
+        celda.innerHTML="Salir";
+        fila.appendChild(celda);
+        tabla.appendChild(fila);
         for(var e in datos.valores_consultados){
+         console.log(datos.valores_consultados[e]);   
+            
                 var fila=document.createElement("tr");
                 
                 var celda=document.createElement("td");
@@ -177,7 +219,7 @@ function dibujarCategoriaEliminacion(datos){
                 var celda=document.createElement("td");
                 var inp=document.createElement("input");
                 inp.setAttribute("type","text");
-                inp.setAttribute("id","descripiconcategoria_"+datos.valores_consultados[e].IdCategoriaProducto);
+                inp.setAttribute("id","descripcioncategoria_"+datos.valores_consultados[e].IdCategoriaProducto);
                 inp.value=datos.valores_consultados[e].DescripcionCategoriaProducto;
                 celda.appendChild(inp); 
                 fila.appendChild(celda);
@@ -185,17 +227,26 @@ function dibujarCategoriaEliminacion(datos){
                 var celda=document.createElement("td");
                 var input=document.createElement("input");
                 input.setAttribute("type","button");
-                input.setAttribute("value","eliminar");
-                //input.setAttribute("onclick","llenarDatosFormularioEditarCategoria('"+datos.valores_consultados[e].NombreCategoriaProducto+"','"+datos.valores_consultados[e].DescripcionCategoriaProducto+"','"+datos.valores_consultados[e].IdCategoriaProductoProducto+"');");
-                input.setAttribute("onclick","eliminarContexto('"+datos.valores_consultados[e].IdCategoriaProducto+"');");
                 celda.appendChild(input);
                 
+                if(datos.valores_consultados[e].EstadoCategoriaProducto==1){
+                    input.setAttribute("value","Deshabilitar");
+                    input.setAttribute("onclick","eliminarContextoCategoria('"+datos.valores_consultados[e].IdCategoriaProducto+"');");
+                
+                }else{
+                    input.setAttribute("value","activar");
+                    input.setAttribute("onclick","activarContextoCategoria('"+datos.valores_consultados[e].IdCategoriaProducto+"');");
+                
+                }
                 
                 fila.appendChild(celda);
                 tabla.appendChild(fila);
                 
             
+            
         }
+           
+     
         div.appendChild(tabla);
     }
 }
@@ -213,11 +264,24 @@ function buscarCategoriaEditar(){
     
 }
 function dibujarTablaEditarCategoria(datos){
-    var div=document.getElementById("divListarespuestaCategoriaEdicion");
+    var div=document.getElementById("resEdicionCat");
     div.innerHTML="";
     var tabla=document.createElement("table");
-    tabla.className="resultadoProd";
+    tabla.className="resultadoEdicionCat";
     if(div!=null){
+        $('#resEdicionCat').fadeIn('slow');
+        var fila=document.createElement("tr");
+        var celda=document.createElement("td");
+        celda.innerHTML="Nombre Categoria";        
+        fila.appendChild(celda);
+        var celda=document.createElement("td");
+        celda.innerHTML="Descripcion Categoría";
+        fila.appendChild(celda);
+        var celda=document.createElement("td");
+        celda.className="salirRes";
+        celda.innerHTML="Salir";
+        fila.appendChild(celda);
+        tabla.appendChild(fila);
         for(var e in datos.valores_consultados){
          console.log(datos.valores_consultados[e]);   
             if(datos.valores_consultados[e].EstadoCategoriaProducto==1){
@@ -234,7 +298,7 @@ function dibujarTablaEditarCategoria(datos){
                 var celda=document.createElement("td");
                 var inp=document.createElement("input");
                 inp.setAttribute("type","text");
-                inp.setAttribute("id","descripiconcategoria_"+datos.valores_consultados[e].IdCategoriaProducto);
+                inp.setAttribute("id","descripcioncategoria_"+datos.valores_consultados[e].IdCategoriaProducto);
                 inp.value=datos.valores_consultados[e].DescripcionCategoriaProducto;
                 celda.appendChild(inp); 
                 fila.appendChild(celda);
@@ -262,18 +326,16 @@ function dibujarTablaEditarCategoria(datos){
 function editarContexto(id){
     
     
-    var nombre_categoria=document.getElementById("nombrecategoria_"+id).value;
-    var descripcion_categoria=document.getElementById("descripcioncategoria_"+id).value;
+    var nombre_categoria=document.getElementById("nombrecategoria_"+id);
+    var descripcion_categoria=document.getElementById("descripcioncategoria_"+id);
+    if(nombre_categoria != null && descripcion_categoria != null){
+        var datos={
+            id_categoria:id,
+            nombre_categoria:nombre_categoria.value,
+            descripcion_categoria:descripcion_categoria.value    
+
+        };
     
-    var datos={
-        id_producto:id,
-        nombre_caegori:nombre,
-        descripcion_categoria:descripcion_categoria    
-        
-    };
-    
-    if(nombre_categoria != ""){
-        
         editarDato("actualizar"+_contexto,datos,mostrarMensaje);
     }else{
         mostrarMensaje({mensaje:"por favor ingrese los valores requeridos"});

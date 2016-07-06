@@ -42,8 +42,15 @@ abstract class ModeloBaseDeDatos{
             if($this->abrir_conexion()){
                 if($resultado=$this->conexion->query($this->sentencia_sql)){
                     $this->respuesta_funcion=$resultado->fetch_object();
+                    //var_dump($this->respuesta_funcion->respuesta);
+                    if($this->respuesta_funcion->respuesta == "0"){
+                        $this->mensajeDepuracion="Lo sentimos pero no se ha podido realizar la operacion satisfactoriamente";
+                        return FALSE;
+                    }
                     return TRUE;
-                }else{
+                }
+                else{
+                    $this->mensajeDepuracion="Lo sentimos pero ha ocurrido un error al generar la consulta";
                     return FALSE;
                 }            
             }else{
@@ -132,7 +139,7 @@ abstract class ModeloBaseDeDatos{
               }  else {
                     $this->mensajeDepuracion=$this->conexion->error;
                     $log=new Log();   
-                    $log->registrar_log_php("logs/errorApp.log","1", $this->conexion->error);
+                    $log->registrar_log_php("../logs/errorApp.log","1", $this->conexion->error);
                 
                     $this->cerrar_conexion();
                   return FALSE;
@@ -140,7 +147,7 @@ abstract class ModeloBaseDeDatos{
           }else{
               $this->mensajeDepuracion=$this->conexion->error;
               $log=new Log();   
-              $log->registrar_log_php("logs/errorApp.log","1", $this->conexion->error);
+              $log->registrar_log_php("../logs/errorApp.log","1", $this->conexion->error);
                 
                 
                 

@@ -31,14 +31,14 @@ DELIMITER;
 DELIMITER//
 CREATE FUNCTION fun_registrar_entrada_devolucion(id_entrada INT,
                                                  fk_id_detalle_factura INT, 
-                                                 cantidad_devolucion INT, 
-                                                 estado_devolucion VARCHAR(11), 
+                                                 cantidad_devolucion INT,
+                                                 tipo_devolucion VARCHAR(10), 
                                                  cometario_devolucion VARCHAR(256))
 RETURNS INT
 BEGIN
     IF NOT EXISTS(SELECT * FROM entradas WHERE IdEntrada=id_entrada) THEN
-        INSERT INTO entrada_devolucion (Fk_Id_Detalle_Factura, CantidadDevolucion, EstadoDevolucion, CometarioDevolucion,Fk_id_Entrada)
-            VALUES(fk_id_detalle_factura, cantidad_devolucion, estado_devolucion, cometario_devolucion,id_entrada);
+        INSERT INTO entrada_devolucion (Fk_Id_Detalle_Factura, CantidadDevolucion,  CometarioDevolucion,Fk_id_Entrada,TipoEntradaDevolucion)
+            VALUES(fk_id_detalle_factura, cantidad_devolucion,   cometario_devolucion,id_entrada,tipo_devolucion);
         RETURN LAST_INSERT_ID();    
      ELSE 
         RETURN 0;

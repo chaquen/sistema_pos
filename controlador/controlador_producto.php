@@ -22,9 +22,9 @@ if(isset($_POST['datos'])){
             $objeto->valor_codigo_producto=trim($post->datos->codigo_producto);
             $objeto->valor_descripcion_producto=trim($post->datos->descripcion_producto);
             $objeto->valor_fk_id_categoria=trim($post->datos->id_categoria);
+            $objeto->valor_precio_venta=trim($post->datos->valor_producto);
             
             echo json_encode($objeto->crear_registro());
-            
             
             break;
         case "actualizar":
@@ -42,7 +42,9 @@ if(isset($_POST['datos'])){
             $objeto->valor_descripcion_producto=trim($post->datos->descripcion_producto);
             $objeto->valor_fk_id_categoria=trim($post->datos->id_categoria);
             $objeto->valor_precio_venta=trim($post->datos->precio);
+            
             echo json_encode($objeto->actualizar_recurso());
+            
             break;
         case "eliminar":
             
@@ -57,6 +59,19 @@ if(isset($_POST['datos'])){
             $objeto->valor_id_producto=trim($post->datos->id_producto);
             echo json_encode($objeto->eliminar_registro());
             break;
+        case "activar":
+            
+            /*
+             * AQUI DOY VALOR DEL ISD QUE DESEO Activar
+             */
+            /*
+             * Para acceder a cada una de las propiedaes enviadas en el metodo POST se debe acceder desde objeto 
+             * $post a la proiedad datos ejemplo
+             * $post->datos->miDatoEnviadoDesdeElCliente
+             */
+            $objeto->valor_id_producto=trim($post->datos->id_producto);
+            echo json_encode($objeto->activar_registro());
+            break;
         case "consultar":
             echo json_encode($objeto->obtener_registro_todos_los_registros());
             break;
@@ -67,6 +82,10 @@ if(isset($_POST['datos'])){
             break;
         case "asociar":
             echo json_encode($objeto->asociar_producto_proveedor($post->datos->id_producto, $post->datos->id_proveedor));
+            break;
+        case "validarDetalleProductoProveedor":
+             echo json_encode($objeto->consultar_id_detalle_producto_proveedor($post->datos->codigo, $post->datos->idProveedor));
+             
             break;
         default :
             echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor defina una operacion o agrege una opcion en el swicth","codigo"=>"00"));

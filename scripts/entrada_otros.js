@@ -16,27 +16,27 @@ var _formConsulta;
 var producto_pendiente;
 var lista_de_entrada=[];
 var proveedor;
-function iniciar_contexto_entrada(){
-   
+function iniciar_contexto_entrada_otros(){
+  
      _contexto="_entrada";//Aqui nombre del contexto ejemplo => _contexto='_producto';En este caso se usara el valor producto como nombre del contexto
     //ejemplo => _
-    _txtNitProveedorEntrada="txtNitProveedorEntrada";
-    _txtCodigoProducto="txtCodigoProducto";
+    _txtNitProveedorEntrada="txtNitProveedorEntradaOtros";
+    _txtCodigoProducto="txtCodigoProductoOtro";
     
     /*AQUI EL NOMBRE DE LOS BOTONES QUE PERTENECEN A ESTE CONTEXTO*/
     
      
      _btnConsulta;
-     _btnAgregarAListaEntrada="btnAgregarAListaEntrada";
-     _btnIngresarEntrada="btnIngresarEntrada";
+     _btnAgregarAListaEntrada="btnAgregarAListaEntradaOtros";
+     _btnIngresarEntrada="btnIngresarEntradaOtros";
     /*AQUI EL NOMBRE DE LOS FORMULARIOS QUE PERTENECEN A ESTE CONTEXTO*/
      _formRegistro;
      _formConsulta;
     
-   agregarEvento(_txtNitProveedorEntrada,"change",consultarProveedor); 
-   agregarEvento(_txtCodigoProducto,"change",consultarProducto); 
-   agregarEvento(_btnAgregarAListaEntrada,"click",agregarProductoALista); 
-   agregarEvento(_btnIngresarEntrada,"click",registrarContextoEntrada);
+   agregarEvento(_txtNitProveedorEntrada,"change",consultarProveedorOtros); 
+   agregarEvento(_txtCodigoProducto,"change",consultarProductoOtros); 
+   agregarEvento(_btnAgregarAListaEntrada,"click",agregarProductoAListaOtros); 
+   agregarEvento(_btnIngresarEntrada,"click",registrarContextoEntradaOtros);
    //agregarEvento(_btnConsulta,"click",consultarContextoEntrada);
    
    
@@ -45,14 +45,16 @@ function iniciar_contexto_entrada(){
 
 
 /* INSERTAR CONTEXTO*/    
-function registrarContextoEntrada(){
+function registrarContextoEntradaOtros(){
     //1-Obtengo los datos del formulario
-    lista_de_entrada
+    
     if(Object.keys(lista_de_entrada).length>0){
         //Creo el objeto que voy a enviar con datos a la peticion
-        var datos={id_empleado:1,codigo_entrada:document.getElementById("txtCodigoFactura").value,lista_pedido:lista_de_entrada,id_proveedor:proveedor.IdProveedor};
+        var datos={id_empleado:obtener_id_usuario(),codigo_entrada:document.getElementById("txtCodigoFacturaOtros").value,lista_pedido:lista_de_entrada,id_proveedor:proveedor.IdProveedor,tipo_devolucion:document.getElementById("selTipoEntrada").value};
         //Invoco mi funcion 
-        registrarDato("crearpedido"+_contexto,datos,mostrarMensaje);
+        registrarDato("crearotros"+_contexto,datos,mostrarMensaje);
+        document.getElementById("txtCodigoFacturaOtros").value="";
+        document.getElementById("tblListaEntradaOtros").innerHTML="";
     }else{
        mostrarMensaje({mensaje:"por favor ingresa productos"});
     }
@@ -60,23 +62,23 @@ function registrarContextoEntrada(){
 }
 
 /* CONSULTAR CONTEXTO */    
-function consultarContextoEntrada(){
+function consultarContextoEntradaOtros(){
     consultarDatos("consultar_"+_contexto,null,imprimir);   
 }
-function consultarProveedor(){
+function consultarProveedorOtros(){
     
     var d={nit:document.getElementById(_txtNitProveedorEntrada).value};
     if(d.nit!=""){
-        consultarDatos("consultarpornit_proveedor",d,dibujarProveedorEntrada);
+        consultarDatos("consultarpornit_proveedor",d,dibujarProveedorEntradaOtros);
     }else{
         mostrarMensaje({mensaje:"ingrese un valor para buscar"});
     }
     
 }
-function dibujarProveedorEntrada(datos){
+function dibujarProveedorEntradaOtros(datos){
     if(datos.valores_consultados!=undefined){
         console.log(datos.valores_consultados[0].NombreProveedor);
-        var txtNombreProveedorEntrada=document.getElementById("txtNombreProveedorEntrada");
+        var txtNombreProveedorEntrada=document.getElementById("txtNombreProveedorEntradaOtros");
         txtNombreProveedorEntrada.innerHTML=datos.valores_consultados[0].NombreProveedor;
         console.log(txtNombreProveedorEntrada.innerHTML);
         proveedor=datos.valores_consultados[0];
@@ -84,28 +86,28 @@ function dibujarProveedorEntrada(datos){
     
     
 }
-function consultarProducto(){
+function consultarProductoOtros(){
     var d={codigo:document.getElementById(_txtCodigoProducto).value};
     if(d.codigo!=""){
-        consultarDatos("consultarporcodigo_producto",d,dibujarProductoEntrada);
+        consultarDatos("consultarporcodigo_producto",d,dibujarProductoEntradaOtros);
     }else{
         mostrarMensaje({mensaje:"ingrese un valor para buscar"});
     }
 }
-function dibujarProductoEntrada(datos){
+function dibujarProductoEntradaOtros(datos){
     if(datos.valores_consultados!=undefined){
-        var txtNombreProductoEntrada=document.getElementById("txtNombreProductoEntrada");
+        var txtNombreProductoEntrada=document.getElementById("txtNombreProductoEntradaOtros");
         txtNombreProductoEntrada.innerHTML=datos.valores_consultados[0].NombreProducto;
         producto_pendiente=datos.valores_consultados[0];
     }
     
     
 }
-function agregarProductoALista(){
-    var cant=document.getElementById("txtCantidadIngresar");
-    //var precio=document.getElementById("txtPrecioEntrada");
+function agregarProductoAListaOtros(){
+    var cant=document.getElementById("txtCantidadIngresarOtros");
+    var comentario=document.getElementById("txtComentarioOtros");
     if(cant.value!=""){
-        var tBody=document.getElementById("tblListaEntrada");
+        var tBody=document.getElementById("tblListaEntradaOtros");
         
         var fila=document.createElement("tr");
         
@@ -121,8 +123,7 @@ function agregarProductoALista(){
         celda.innerHTML=cant.value;
         fila.appendChild(celda);
         producto_pendiente.cantidad_entrada=cant.value;
-        //producto_pendiente.precio_entrada=precio.value;
-        producto_pendiente.precio_entrada=0;
+        producto_pendiente.comentario=comentario.value;
         
         tBody.appendChild(fila);
         lista_de_entrada.push(producto_pendiente);

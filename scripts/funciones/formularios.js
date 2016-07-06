@@ -1,4 +1,4 @@
-/*Funcion que devuelve un arreglo con los valores del formulario*/
+    /*Funcion que devuelve un arreglo con los valores del formulario*/
 function obtener_valores_formulario(idFormulario){
     
     var formulario=document.getElementById(idFormulario);
@@ -30,7 +30,7 @@ function obtener_valores_formulario(idFormulario){
               }
                 console.log(elementos[i].type);
                 console.log(elementos[i].value);
-                if(validar_campo_formulario(elementos[i],elementos[i].name)){
+                
                     elementos[i].style.borderColor="";
                         switch(elementos[i].type){
                             case "text":
@@ -94,11 +94,7 @@ function obtener_valores_formulario(idFormulario){
                               otros.push(elementos[i].value);
                               break;
                         }
-                }else{
-                     elementos[i].style.borderColor="red";
-                     return false;
-                     break;
-                }
+                
                 
               
           }          

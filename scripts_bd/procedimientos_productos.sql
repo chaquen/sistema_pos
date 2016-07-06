@@ -54,11 +54,11 @@ BEGIN
     IF((SELECT EstadoProducto FROM producto WHERE IdProducto=idProducto)=1) THEN
         UPDATE producto SET EstadoProducto = 0
         WHERE IdProducto=idProducto;
-        RETURN 1;   
+        RETURN (SELECT IdProducto FROM producto WHERE IdProducto=idProducto);   
     ELSE
         UPDATE producto SET EstadoProducto = 1
         WHERE IdProducto=idProducto;
-        RETURN 1;
+        RETURN (SELECT IdProducto FROM producto WHERE IdProducto=idProducto);
     END IF;
     
  ELSE
