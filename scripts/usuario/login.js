@@ -33,8 +33,10 @@ function validarIngreso(datos){
                 us.nombre=d.NombreUsuario+" "+d.ApellidoUsuario;
                 us.correo=d.CorreoUsuario;
                 us.id_usuario=d.IdUsuario;
+                us.id_rol=d.Cargo;
                 agregar_session_storage("ssUsuario",us);
-                location.reload(true);
+                consultar_menu_rol(us);
+                
             }
             
         }else{
@@ -45,7 +47,8 @@ function validarIngreso(datos){
 /*Funcion para salir de la aplicacion*/
 function salirApp(){
     if(confirm("Desea salir de la aplicación?")){
-        var us=JSON.parse(obtener_session_storage("ssUsuario"));
+        var us=obtener_session_storage("ssUsuario");
+        
         registrarDato("cerrarSesion"+_contexto,{id_user:us.id_usuario},validarSalidaApp);
         
     }
@@ -59,5 +62,29 @@ function validarSalidaApp(datos){
         console.log(window);
     }else{
         mostrarMensaje(datos);
+    }
+}
+
+function consultar_menu_rol(u){
+    consultarDatos("consultarRol_usuario",{id_rol:u.id_rol},dibujar_menu);
+    recargar();
+    
+}
+function recargar(){
+    location.reload(true);
+}
+function dibujar_menu(d){
+    console.log(d);
+    switch(d.IdRol){
+        case "1":
+            //Administrador
+            
+            break;
+        case "2":
+            //Auxiliar
+            break;
+        case "3":
+            //Cajero
+            break;    
     }
 }

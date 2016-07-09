@@ -3,14 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/factura.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/load.js</file>
             <file>file:/C:/xampp/htdocs/sistema_pos/Estilos/Script/menu.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/Estilos/Script/menu_1.js</file>
             <file>file:/C:/xampp/htdocs/sistema_pos/index2.html</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/datos/orm_usuario_empleado.php</file>
             <file>file:/C:/xampp/htdocs/sistema_pos/scripts/producto.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/proveedor.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/usuario/login.js</file>
             <file>file:/C:/xampp/htdocs/sistema_pos/scripts/usuario.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/funciones/session_storage.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/CrudBase.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/controlador/controlador_factura.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/funciones/formularios.js</file>
             <file>file:/C:/xampp/htdocs/sistema_pos/scripts/categorias.js</file>
         </group>
     </open-files>

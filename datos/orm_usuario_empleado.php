@@ -71,8 +71,8 @@ class UsuarioEmpleado extends ModeloBaseDeDatos{
         }
         
     }
-       function obtener_registro_por_campo($valor){
-      $this->sentencia_sql="SELECT * 
+    function obtener_registro_por_campo($valor){
+        $this->sentencia_sql="SELECT * 
                 FROM vw_usuario_empleado WHERE NombreUsuario LIKE  '$valor%' OR DocumentoUsuario LIKE '$valor'";        
         
         if($this->ejecutar_consulta_sql()){
@@ -146,5 +146,40 @@ class UsuarioEmpleado extends ModeloBaseDeDatos{
             return array("respuesta"=>FALSE,"mensaje"=>  $this->mensajeDepuracion);
         }
     }
-
+    function obtener_registro_por_id(){
+        $this->sentencia_sql="SELECT * 
+                FROM vw_usuario_empleado WHERE IdUsuario = '$this->valor_id_usuario'";        
+        
+        if($this->ejecutar_consulta_sql()){
+            //return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla usuario","respuesta"=>TRUE);
+            return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE,"valores_consultados"=>$this->filas_json);
+        }else{
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
+        }
+        
+    }
+    function obtener_registro_por_cargo($cargo){
+        $this->sentencia_sql="SELECT * 
+                FROM vw_usuario_empleado WHERE Cargo = '$cargo'";        
+        
+        if($this->ejecutar_consulta_sql()){
+            //return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla usuario","respuesta"=>TRUE);
+            return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE,"valores_consultados"=>$this->filas_json);
+        }else{
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
+        }
+        
+    }
+    function consultar_menu_rol($rol){
+        $this->sentencia_sql="SELECT * 
+                FROM vw_permisos WHERE IdRol = '$rol'";        
+        
+        if($this->ejecutar_consulta_sql()){
+            //return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla usuario","respuesta"=>TRUE);
+            return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE,"valores_consultados"=>$this->filas_json);
+        }else{
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
+        }
+        
+    }
 }

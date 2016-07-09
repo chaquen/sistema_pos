@@ -71,7 +71,12 @@ function registrarContextoFactura(){
    
         registrarDato("crear"+_contexto,datos,mostrarMensaje,_formRegistro);
         consultar_codigo_factura();
+        
         document.getElementById("tdbListaFactura").innerHTML="";
+        _lista_factura="";
+        _producto_factura="";
+        document.getElementById("h3ValorTotalUnidades").innerHTML="$ "+formato_numero(0,"2",".",",");
+        document.getElementById("h3ValorTotalUnidades").value=0;
     }else{
        mostrarMensaje({mensaje:"por favor ingresa valores"});
     }
@@ -135,7 +140,7 @@ function agregarProductoAListaFactura (){
     
     
     console.log(_producto_factura);
-    if(_producto_factura.cantidad_vendida!=""){
+    if(_producto_factura.cantidad_vendida!="" && _producto_factura.cantidad_vendida<=_producto_factura.ExistenciasTotalBodega){
         var tBody=document.getElementById("tdbListaFactura");	
         
         var fila=document.createElement("tr");
@@ -160,31 +165,122 @@ function agregarProductoAListaFactura (){
          var celda=document.createElement("td");
         celda.innerHTML=_producto_factura.total;
         fila.appendChild(celda);
+        var celda=document.createElement("td");
+        var h=document.createElement("h3");
+        h.innerHTML="X";
+        h.setAttribute("onclick","quitar_item('"+_producto_factura.CodigoProducto+"')");
+        celda.appendChild(h);
+        fila.appendChild(celda);
         
         tBody.appendChild(fila);
         _lista_factura.push(_producto_factura);
-    }else{
-        mostrarMensaje({mensaje:"por favor selecciona un producto e ingresa una cantidad"});
+        
+        document.getElementById("txtCodigoDelProducto").value="";
+        document.getElementById("txtCantidadVenta").value="";
+        document.getElementById("h3ValorUnidad").value="";
+        document.getElementById("h3ValorTotalUnidades").value="";
+        document.getElementById("h3ValorUnidad").innerHTML="$ 0.00";
+        document.getElementById("h3ValorTotalUnidades").innerHTML="$ 0.00";
+        document.getElementById("h3NombreProductoFactura").innerHTML="Nombre producto";
+        
+    }
+    else{
+        if(_producto_factura.cantidad_vendida > _producto_factura.ExistenciasTotalBodega){
+            mostrarMensaje({mensaje:"Lo sentimos pero no hay suficientes existencias para la venta"});
+        }else{
+            mostrarMensaje({mensaje:"por favor selecciona un producto e ingresa una cantidad"});
+        }
+        
     }
     
     
     calcular_valores_totales();
 }
-function calcular_valores_totales(){
-    var total=0;
-    var iva=0;
-    var subTotal=0;
+function redibujarTabla(){
+   document.getElementById("tdbListaFactura").innerHTML="";
+        for(var i in _lista_factura){
+            
+            var tBody=document.getElementById("tdbListaFactura");	
+
+            var fila=document.createElement("tr");
+
+            var celda=document.createElement("td");
+            celda.innerHTML=_lista_factura[i].CodigoProducto;
+            fila.appendChild(celda);
+
+            var celda=document.createElement("td");
+            celda.innerHTML=_lista_factura[i].NombreProducto;
+            fila.appendChild(celda);
+
+            var celda=document.createElement("td");
+            celda.innerHTML=_lista_factura[i].precio_total_venta;
+            fila.appendChild(celda);
+
+
+            var celda=document.createElement("td");
+            celda.innerHTML=_lista_factura[i].cantidad_vendida;
+            fila.appendChild(celda);
+
+             var celda=document.createElement("td");
+            celda.innerHTML=_lista_factura[i].total;
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
+            var h=document.createElement("h3");
+            h.innerHTML="X";
+            h.setAttribute("onclick","quitar_item('"+_lista_factura[i].CodigoProducto+"')");
+            celda.appendChild(h);
+            fila.appendChild(celda);
+
+            tBody.appendChild(fila);
+        }    
+    
+    calcular_valores_totales();
+}
+function quitar_item(cod){
+    var p=0;
+    var pos;
     for(var i in _lista_factura){
-        subTotal+=_lista_factura[i].total;
+        if(_lista_factura[i].CodigoProducto==cod){
+          pos=p;  
+          console.log(pos);
+        }else{
+            p++;
+        }
     }
-    iva=subTotal*0.16;
-    total=subTotal+iva;
-    document.getElementById("tdSubTotal").value=subTotal;
-    document.getElementById("tdSubTotal").innerHTML="$ "+formato_numero(subTotal,"2",",",".");
-    document.getElementById("tdIva").value=iva;
-    document.getElementById("tdIva").innerHTML="$ "+formato_numero(iva,"2",",",".");
-    document.getElementById("tdTotal").value=total;
-    document.getElementById("tdTotal").innerHTML="$ "+formato_numero(total,"2",",",".");
+    if(pos!=undefined){
+        _lista_factura.splice(pos,1);
+        calcular_valores_totales();
+        redibujarTabla();
+    }
+    console.log(_lista_factura);
+    
+    
+}
+function calcular_valores_totales(){
+    if(_lista_factura.length>0){
+        var total=0;
+        var iva=0;
+        var subTotal=0;
+        for(var i in _lista_factura){
+            subTotal+=_lista_factura[i].total;
+        }
+        iva=subTotal*0.16;
+        total=subTotal+iva;
+        document.getElementById("tdSubTotal").value=subTotal;
+        document.getElementById("tdSubTotal").innerHTML="$ "+formato_numero(subTotal,"2",",",".");
+        document.getElementById("tdIva").value=iva;
+        document.getElementById("tdIva").innerHTML="$ "+formato_numero(iva,"2",",",".");
+        document.getElementById("tdTotal").value=total;
+        document.getElementById("tdTotal").innerHTML="$ "+formato_numero(total,"2",",",".");
+    
+    }else{
+        document.getElementById("tdSubTotal").value=0;
+        document.getElementById("tdSubTotal").innerHTML="$ "+formato_numero(0,"2",",",".");
+        document.getElementById("tdIva").value=0;
+        document.getElementById("tdIva").innerHTML="$ "+formato_numero(0,"2",",",".");
+        document.getElementById("tdTotal").value=0;
+        document.getElementById("tdTotal").innerHTML="$ "+formato_numero(0,"2",",",".");
+    }
     
 }
 function consultar_codigo_factura(){

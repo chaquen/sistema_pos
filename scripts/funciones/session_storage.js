@@ -16,5 +16,6 @@ function agregar_session_storage(nombre,datos){
 }
 
 function obtener_id_usuario(){
-    return 1;
+    var s= obtener_session_storage("ssUsuario");
+    return s.id_usuario;
 }

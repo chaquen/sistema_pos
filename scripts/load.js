@@ -1,7 +1,8 @@
 agregarEventoLoad(cargarFuncionesMenu);
 
 function cargarFuncionesMenu(){
-    if(obtener_session_storage("ssUsuario")!=false){
+    var s=obtener_session_storage("ssUsuario");
+    if(s != false){
         $('#login').hide();
         $('.menuAdm').fadeIn('slow'); 
         
@@ -13,7 +14,8 @@ function cargarFuncionesMenu(){
         agregarEvento("sal","click",iniciar_contexto_salida_otros);
         agregarEvento("fac","click",iniciar_contexto_factura);
         agregarEvento("usu","click",iniciar_contexto_usuario);
-    
+        agregarEvento("h3Salir","click",salirApp);
+        
     }else{
       
         iniciarLogin();

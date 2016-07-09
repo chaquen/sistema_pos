@@ -99,6 +99,9 @@ function dibujarProductosConsulta(datos){
             celda.innerHTML="Valor";
             fila.appendChild(celda);
             var celda=document.createElement("td");
+            celda.innerHTML="Existencias Bodega";
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
             celda.className="salirRes";
             celda.innerHTML="Salir";
             fila.appendChild(celda);
@@ -145,6 +148,7 @@ function dibujarProductosConsulta(datos){
                 inp.value=datos.valores_consultados[d].DescripcionProducto;
                 celda.appendChild(inp); 
                 fila.appendChild(celda);
+                
                 var celda=document.createElement("td");
                 var inp=document.createElement("input");
                 inp.setAttribute("type","text");
@@ -152,6 +156,16 @@ function dibujarProductosConsulta(datos){
                 inp.value=datos.valores_consultados[d].PrecioVentaDefinitivo;
                 celda.appendChild(inp); 
                 fila.appendChild(celda);
+                
+                var celda=document.createElement("td");
+                var inp=document.createElement("input");
+                inp.setAttribute("type","text");
+                inp.setAttribute("id","existencias_"+datos.valores_consultados[d].ExistenciasTotalBodega);
+                inp.value=datos.valores_consultados[d].ExistenciasTotalBodega;
+                celda.appendChild(inp); 
+                fila.appendChild(celda);
+                
+                
                 var celda=document.createElement("td");
                 fila.appendChild(celda);
 
