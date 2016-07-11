@@ -23,9 +23,14 @@ class Categoria extends ModeloBaseDeDatos{
             //$this->ejecutar_consulta_sql();
             
             if($this->respuesta_funcion->respuesta!=0){
-                return array("codigo"=>"01","mensaje"=>  "Categoria registrada exitosamente","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
+                return array("codigo"=>"01",
+                    "mensaje"=>  "Categoria registrada exitosamente",
+                    "respuesta"=>TRUE,
+                    "nuevo_registro"=>$this->respuesta_funcion->respuesta);
             }else{
-                return array("codigo"=>"00","mensaje"=>  "Categoria ya existe","respuesta"=>FALSE,"nuevo_registro"=>"0");
+                return array("codigo"=>"00",
+                    "mensaje"=>  "Categoria ya existe",
+                    "respuesta"=>FALSE,"nuevo_registro"=>"0");
             }
             
         }else{

@@ -65,7 +65,8 @@ class Salida extends ModeloBaseDeDatos{
             return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
         }
         
-    }function obtener_registro_todos_los_registros_venta(){
+    }
+    function obtener_registro_todos_los_registros_venta(){
         
         $this->sentencia_sql="CALL pa_consultar_".$this->TABLA."_venta()";       
         
@@ -86,6 +87,18 @@ class Salida extends ModeloBaseDeDatos{
             return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE,"valoresConsultados"=>$this->filas_json);
         }else{
             return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+        }
+        
+    }
+    function obtener_registro_por_codigo(){
+        
+        $this->sentencia_sql="CALL pa_consultar_".$this->TABLA."_por_codigo('$this->valor_codigo_salida')";       
+        
+        if($this->ejecutar_consulta_sql()){
+            //return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE);
+            return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE,"valores_consultados"=>$this->filas_json);
+        }else{
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
         }
         
     }

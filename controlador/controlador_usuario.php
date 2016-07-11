@@ -115,7 +115,7 @@ if(isset($_POST['datos'])){
             echo json_encode($objeto->logOut());
             break;
         case "consultarRol":
-            json_encode($objeto->consultar_menu_rol($post->datos->id_rol));
+            echo json_encode($objeto->consultar_menu_rol($post->datos->id_rol));
             break;
         default :
             echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor defina una operacion o agrege una opcion en el swicth","codigo"=>"00"));

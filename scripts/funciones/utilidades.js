@@ -79,10 +79,10 @@ function limpiarFormulario(idForm){
 function agregarEvento(idElemento,evento,funcion){
     if(document.getElementById(idElemento)!=null){
         
-        console.log("Nombre evento ");
+        /*console.log("Nombre evento ");
         console.log(evento);
         console.log("Funcion ");
-        console.log(funcion);
+        console.log(funcion);*/
         
         document.getElementById(idElemento).addEventListener(evento,funcion,false);
          
@@ -90,6 +90,7 @@ function agregarEvento(idElemento,evento,funcion){
         
         
     }else{
+        console.log("ERROR");
         console.log("Nombre evento ");
         console.log(evento);
         console.log("Funcion ");

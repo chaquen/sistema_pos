@@ -35,7 +35,8 @@ function validarIngreso(datos){
                 us.id_usuario=d.IdUsuario;
                 us.id_rol=d.Cargo;
                 agregar_session_storage("ssUsuario",us);
-                consultar_menu_rol(us);
+                recargar();
+                
                 
             }
             
@@ -64,27 +65,6 @@ function validarSalidaApp(datos){
         mostrarMensaje(datos);
     }
 }
-
-function consultar_menu_rol(u){
-    consultarDatos("consultarRol_usuario",{id_rol:u.id_rol},dibujar_menu);
-    recargar();
-    
-}
 function recargar(){
     location.reload(true);
-}
-function dibujar_menu(d){
-    console.log(d);
-    switch(d.IdRol){
-        case "1":
-            //Administrador
-            
-            break;
-        case "2":
-            //Auxiliar
-            break;
-        case "3":
-            //Cajero
-            break;    
-    }
 }

@@ -218,6 +218,10 @@ if(isset($_POST['datos'])){
         case "consultar":
             echo json_encode($objeto->obtener_registro_todos_los_registros());
             break;
+        case "consultarCodigo":
+            echo json_encode($objeto->consultar_codigo_entrada());
+            break;
+ 
         default :
             echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor defina una operacion o agrege una opcion en el swicth","codigo"=>"00"));
             break;

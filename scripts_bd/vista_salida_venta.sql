@@ -1,6 +1,1 @@
-CREATE VIEW vw_salida_ventas AS 
-SELECT * FROM factura f 
-INNER JOIN detalle_factura_producto dfp ON f.IdFactura=dfp.Fk_Id_Factura
-INNER JOIN producto p ON dfp.Fk_Id_Producto=p.IdProducto 
-INNER JOIN salida_venta sv ON sv.Fk_Id_Factura_Salida_Venta=f.IdFactura
-INNER JOIN salidas s ON s.IdSalidas=sv.Fk_Id_Salida
+CREATE VIEW vw_salida_ventas AS select `f`.`IdFactura` AS `IdFactura`,`f`.`CodigoFactura` AS `CodigoFactura`,`f`.`FechaFacturacion` AS `FechaFacturacion`,`f`.`EstadoFactura` AS `EstadoFactura`,`f`.`Fk_Id_Usuario_Creador` AS `Fk_Id_Usuario_Creador`,`f`.`Fk_Id_Cliente` AS `Fk_Id_Cliente`,`dfp`.`IdDetalleFacturaProducto` AS `IdDetalleFacturaProducto`,`dfp`.`Fk_Id_Factura` AS `Fk_Id_Factura`,`dfp`.`Fk_Id_Producto` AS `Fk_Id_Producto`,`dfp`.`Cantidad` AS `Cantidad`,`dfp`.`ValorProducto` AS `ValorProducto`,`dfp`.`Descuento` AS `Descuento`,`p`.`IdProducto` AS `IdProducto`,`p`.`CodigoProducto` AS `CodigoProducto`,`p`.`NombreProducto` AS `NombreProducto`,`p`.`DescripcionProducto` AS `DescripcionProducto`,`p`.`Fk_Id_Categoria` AS `Fk_Id_Categoria`,`p`.`PrecioVentaDefinitivo` AS `PrecioVentaDefinitivo`,`p`.`EstadoProducto` AS `EstadoProducto`,`p`.`ExistenciasTotalBodega` AS `ExistenciasTotalBodega`,`p`.`ExistenciasTotalTienda` AS `ExistenciasTotalTienda`,`p`.`ExistenciasMinimas` AS `ExistenciasMinimas` from ((`factura` `f` join `detalle_factura_producto` `dfp` on((`f`.`IdFactura` = `dfp`.`Fk_Id_Factura`))) join `producto` `p` on((`p`.`IdProducto` = `dfp`.`Fk_Id_Producto`)))

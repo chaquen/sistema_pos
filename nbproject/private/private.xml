@@ -5,15 +5,27 @@
         <group>
             <file>file:/C:/xampp/htdocs/sistema_pos/scripts/factura.js</file>
             <file>file:/C:/xampp/htdocs/sistema_pos/scripts/load.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/Estilos/Script/menu.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/index2.html</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/producto.js</file>
             <file>file:/C:/xampp/htdocs/sistema_pos/scripts/usuario/login.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/usuario.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/CrudBase.js</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/controlador/controlador_factura.php</file>
-            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/funciones/formularios.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/datos/orm_usuario_cliente.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/datos/orm_core.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/datos/orm_categoria.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/funciones/session_storage.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/Estilos/Css/menuAdmin.css</file>
             <file>file:/C:/xampp/htdocs/sistema_pos/scripts/categorias.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/prototipo/prototipos.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/funciones/utilidades.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/controlador/controlador_categoria.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/entrada_pedido.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/datos/orm_factura.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/index2.html</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/datos/constantes_servidor.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/producto.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/CrudBase.js</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/datos/modelo.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/controlador/controlador_factura.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/datos/orm_producto.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/controlador/controlador_producto.php</file>
+            <file>file:/C:/xampp/htdocs/sistema_pos/scripts/funciones/formularios.js</file>
         </group>
     </open-files>
 </project-private>

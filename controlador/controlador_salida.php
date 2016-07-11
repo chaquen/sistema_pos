@@ -103,7 +103,8 @@ if(isset($_POST['datos'])){
             echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Lo sentimos pero no tienes permisos para eliminar esta salida"));
             break;
         case "consultar":
-            echo json_encode($objeto->obtener_registro_todos_los_registros());
+            $objeto->valor_codigo_salida=trim($post->datos->codigo_salida);
+            echo json_encode($objeto->obtener_registro_por_codigo());
             break;
         
         default :

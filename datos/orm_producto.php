@@ -10,6 +10,8 @@ class Producto extends ModeloBaseDeDatos{
     public $valor_precio_venta;
     public $valor_existencias_total_bodega;
     public $valor_existencias_total_tienda;
+    public $valor_existencia_minima;
+
 
     public function __construct() {
         
@@ -18,7 +20,12 @@ class Producto extends ModeloBaseDeDatos{
     //$obj=> array("id_empresa"=>'mi valor uno',"nombre_empresa"=>'mi valor dos')
     function crear_registro(){
         
-        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."('$this->valor_codigo_producto','$this->valor_nombre_producto','$this->valor_descripcion_producto','$this->valor_fk_id_categoria','$this->valor_precio_venta') as respuesta";
+        $this->sentencia_sql="SELECT fun_registrar_".$this->TABLA."('$this->valor_codigo_producto',"
+                                                        . "'$this->valor_nombre_producto',"
+                                                        . "'$this->valor_descripcion_producto',"
+                                                        . "'$this->valor_fk_id_categoria',"
+                                                        . "'$this->valor_precio_venta'"
+                                                        . ",'$this->valor_existencia_minima') as respuesta";
                 
         if($this->ejecutar_funcion_sql()){
             

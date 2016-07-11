@@ -16,7 +16,7 @@ var _formEliminar;
 //agregarEventoLoad(iniciar_contexto_categoria);
 function iniciar_contexto_categoria(){
    
- _contexto="_categoria";//Aqui nombre del contexto ejemplo => _contexto='_producto';En este caso se usara el valor producto como nombre del contexto
+ _contexto="_categoria";//Aqui nombre del controlador ejemplo => _contexto='_producto';En este caso se usara el valor producto como nombre del contexto
     //ejemplo => _
   /*AQUI EL NOMBRE DE LOS BOTONES QUE PERTENECEN A ESTE CONTEXTO*/
  _btnRegistro="btnCrearCategoria";

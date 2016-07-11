@@ -13,6 +13,7 @@ var _producto_factura;
 
 var _lista_factura=[];
 var cliente;
+var _IVA=0;
 function iniciar_contexto_factura(){
    
      _contexto='_factura';//Aqui nombre del contexto ejemplo => _contexto='_producto';En este caso se usara el valor producto como nombre del contexto
@@ -34,9 +35,20 @@ function iniciar_contexto_factura(){
    agregarEvento(_txtCantidadVenta,"change",calcularPrecioItem);
    
    consultar_codigo_factura();
+   consultar_iva();
    
 }
-
+function consultar_iva(){
+    if(this.value!=""){
+        
+        consultarDatos("consultarIVA"+_contexto,{},cargar_valor_iva);  
+    }
+}
+function cargar_valor_iva(d){
+    var valores_devueltos=d.valores_consultados;
+    var valor=new Number(valores_devueltos.ValorImpuesto);
+    _IVA=valor.ValorImpuesto/100;
+}
 /* INSERTAR CONTEXTO*/    
 function registrarContextoFactura(){
     //1-Obtengo los datos del formulario
@@ -264,7 +276,7 @@ function calcular_valores_totales(){
         for(var i in _lista_factura){
             subTotal+=_lista_factura[i].total;
         }
-        iva=subTotal*0.16;
+        iva=subTotal*_IVA;
         total=subTotal+iva;
         document.getElementById("tdSubTotal").value=subTotal;
         document.getElementById("tdSubTotal").innerHTML="$ "+formato_numero(subTotal,"2",",",".");

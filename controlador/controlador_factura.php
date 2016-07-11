@@ -87,44 +87,55 @@ if(isset($_POST['datos'])){
 
                 $respuesta=$objeto->crear_registro();
                 $objeto->valor_id_factura=$respuesta["nuevo_registro"];
-
+                
                 if($respuesta["respuesta"]){
-                    $i=0;
-                    $res=array();
-                    $valido=FALSE;
-                    foreach ($post->datos->lista_factura as $key => $valor) {
+                    $sa=new Salida();
+                    $sa->valor_codigo_salida=$post->datos->codigo_factura;
+                    $sa->valor_fecha_salida=trim($post->hora_cliente);
+                    $sa->valor_fk_id_usuario_empleado=$post->datos->id_empleado;
+                    $sa->valor_tipo_salida="Venta";
+                    $rsa=$sa->crear_registro();                     
+                    if($rsa["respuesta"]){
+                        $sa->crear_venta($respuesta["nuevo_registro"]);
+                        $i=0;
+                        $res=array();
+                        $valido=FALSE;
+                        foreach ($post->datos->lista_factura as $key => $valor) {
 
-                        if($objeto->crear_detalle_factura($valor->IdProducto, $valor->total, $valor->cantidad_vendida)){
-                            $res[$i]=array("respuesta"=>TRUE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"00");
-                            $i++;
-                            $valido=TRUE;
-                            $p->valor_id_producto=$valor->IdProducto;
-                            $rp=$p->consultar_por_id();
-                            if($rp["respuesta"]){
-                                //var_dump($rp["valores_consultados"]);
-                                $pro=  json_decode($rp["valores_consultados"]);
-                                if($pro->ExistenciasTotalBodega<=5){
-                                    $email=new Mail();
-                                    
-                                    $mensajeMail="Hola este es una alerta de existencias bajas para el producto ".$pro[0]->CodigoProducto." ".$pro[0]->NombreProducto."\n Total existencias ".$pro[0]->ExistanciasTotalBodega;
-                                    $email->enviarMailAmigo($destino, "Alerta limite de existencias", $mensajeMail);
+                            if($objeto->crear_detalle_factura($valor->IdProducto, $valor->total, $valor->cantidad_vendida)){
+                                $res[$i]=array("respuesta"=>TRUE,"mensaje"=>"detalle registrado exitosamenete","codigo"=>"00");
+                                $i++;
+                                $valido=TRUE;
+                                $p->valor_id_producto=$valor->IdProducto;
+                                $rp=$p->consultar_por_id();
+                                if($rp["respuesta"]){
+                                    //var_dump($rp["valores_consultados"]);
+                                    $pro=  json_decode($rp["valores_consultados"]);
+                                    if($pro->ExistenciasTotalBodega<=$pro->ExistenciasMinimas){
+                                        $email=new Mail();
+
+                                        $mensajeMail="Hola este es una alerta de existencias bajas para el producto ".$pro[0]->CodigoProducto." ".$pro[0]->NombreProducto."\n Total existencias ".$pro[0]->ExistanciasTotalBodega;
+                                        $email->enviarMailAmigo($destino, "Alerta limite de existencias", $mensajeMail);
+                                    }
                                 }
-                            }
 
+                            }else{
+                                $res[$i]=array("respuesta"=>FALSE,"mensaje"=>"Error al crear el detalle de la factura","codigo"=>"01","s"=>$objeto->sentencia_sql);
+                                $i++;
+                                $valido=FALSE;
+                            }
+                        }
+                        if($valido){
+                            echo json_encode(array("respuesta"=>TRUE,"mensaje"=>"Factura registrada satisfactoriamente","valores_insertados"=>$res));
                         }else{
-                            $res[$i]=array("respuesta"=>FALSE,"mensaje"=>"Error al crear el detalle de la factura","codigo"=>"01","s"=>$objeto->sentencia_sql);
-                            $i++;
-                            $valido=FALSE;
+
+                            $objeto->eliminar_factura();
+
+                            echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Error al crear factura","valores_insertados"=>$res));
                         }
                     }
-                    if($valido){
-                        echo json_encode(array("respuesta"=>TRUE,"mensaje"=>"Factura registrada satisfactoriamente","valores_insertados"=>$res));
-                    }else{
-
-                        $objeto->eliminar_factura();
-
-                        echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Error al crear factura","valores_insertados"=>$res));
-                    }
+                    
+                    
 
                 }else{
 
@@ -168,6 +179,9 @@ if(isset($_POST['datos'])){
             break;
         case "consultarCodigo":
             echo json_encode($objeto->consultar_codigo_factura());
+            break;
+        case "consultarIVA":
+            echo json_encode($objeto->consultar_impuesto("IVA"));            
             break;
         default :
             echo json_encode(array("respuesta"=>FALSE,"mensaje"=>"Por favor defina una operacion o agrege una opcion en el swicth","codigo"=>"00"));

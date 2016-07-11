@@ -55,7 +55,8 @@ function registrarContextoProducto(){
                     codigo_producto:valores_formulario.Texto[0],
                     descripcion_producto:valores_formulario.Texto[2],
                     id_categoria:valores_formulario.Select[0],
-                    valor_producto:valores_formulario.Texto[3]};
+                    valor_producto:valores_formulario.Texto[3],
+                    existencia_minima:valores_formulario.Texto[4]};
         //Invoco mi funcion 
         registrarDato("crear"+_contexto,datos,mostrarMensaje,_formRegistro);
     }else{

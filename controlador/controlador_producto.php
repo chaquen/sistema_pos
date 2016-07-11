@@ -23,7 +23,7 @@ if(isset($_POST['datos'])){
             $objeto->valor_descripcion_producto=trim($post->datos->descripcion_producto);
             $objeto->valor_fk_id_categoria=trim($post->datos->id_categoria);
             $objeto->valor_precio_venta=trim($post->datos->valor_producto);
-            
+            $objeto->valor_existencia_minima=trim($post->datos->existencia_minima);    
             echo json_encode($objeto->crear_registro());
             
             break;

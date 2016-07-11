@@ -37,7 +37,7 @@ function iniciar_contexto_entrada_pedido(){
    agregarEvento(_txtCodigoProducto,"change",consultarProducto); 
    agregarEvento(_btnAgregarAListaEntrada,"click",agregarProductoALista); 
    agregarEvento(_btnIngresarEntrada,"click",registrarContextoEntrada);
-   //agregarEvento(_btnConsulta,"click",consultarContextoEntrada);
+   consultarCodigoEntrada();
    
    
 }
@@ -48,22 +48,24 @@ function iniciar_contexto_entrada_pedido(){
 function registrarContextoEntrada(){
     //1-Obtengo los datos del formulario
 
-    if(Object.keys(lista_de_entrada).length>0 && proveedor != undefined){
+    if(Object.keys(lista_de_entrada).length>0 && proveedor != undefined && document.getElementById("txtCodigoFactura").value != ""){
         //Creo el objeto que voy a enviar con datos a la peticion
        
-       
+       console.log();
         var datos={id_empleado:obtener_id_usuario(),codigo_entrada:document.getElementById("txtCodigoFactura").value,lista_pedido:lista_de_entrada,id_proveedor:proveedor.IdProveedor};
         //Invoco mi funcion 
         
         registrarDato("crearpedido"+_contexto,datos,mostrarMensaje);
-       document.getElementById("txtCodigoFactura").value="";
+       consultarCodigoEntrada();
        document.getElementById("tblListaEntrada").innerHTML="";
     }else{
        var msn;
        if(proveedor==undefined){
            msn="por favor seleccione un proveedor";
-       }else{
+       }else if(Object.keys(lista_de_entrada).length==0){
            msn="por favor ingresa productos a la lista";
+       }else{
+           msn="por favor ingresa un codigo para la factura";
        }
        mostrarMensaje({mensaje:msn});
     }
@@ -143,4 +145,11 @@ function agregarProductoALista(){
         mostrarMensaje({mensaje:"por favor selecciona un producto e ingresa una cantidad"});
     }
         
+}
+function consultarCodigoEntrada(){
+ consultarDatos("consultarCodigo"+_contexto,{},dibujarCodigoEntrada);   
+}
+function dibujarCodigoEntrada(datos){
+    document.getElementById("txtCodigoFactura").value=datos.codigo_factura;
+    document.getElementById("txtCodigoFactura").setAttribute("readonly",true);
 }

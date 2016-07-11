@@ -1,5 +1,2 @@
 CREATE VIEW vw_usuario_empleado AS 
-SELECT * FROM usuario u 
-    INNER JOIN empleado e 
-    ON u.IdUsuario=e.Fk_Id_Usuario
-
+select `u`.`IdUsuario` AS `IdUsuario`,`u`.`NombreUsuario` AS `NombreUsuario`,`u`.`ApellidoUsuario` AS `ApellidoUsuario`,`u`.`DocumentoUsuario` AS `DocumentoUsuario`,`u`.`TelefonoUsuario` AS `TelefonoUsuario`,`u`.`CelularUsuario` AS `CelularUsuario`,`u`.`CorreoUsuario` AS `CorreoUsuario`,`u`.`EstadoUsuario` AS `EstadoUsuario`,`e`.`IdUsuarioEmpleado` AS `IdUsuarioEmpleado`,`e`.`Fk_Id_Usuario_Empleado` AS `Fk_Id_Usuario_Empleado`,`e`.`Cargo` AS `Cargo`,`ia`.`IdIngresoAplicacion` AS `IdIngresoAplicacion`,`ia`.`Fk_Id_Usuario` AS `Fk_Id_Usuario`,`ia`.`Clave` AS `Clave`,`ia`.`PreguntaSeguridad` AS `PreguntaSeguridad`,`ia`.`RespuestaSeguridad` AS `RespuestaSeguridad`,`ia`.`UltimaActividad` AS `UltimaActividad`,`ia`.`EstadoIngreso` AS `EstadoIngreso` from ((`usuario` `u` join `empleado` `e` on((`u`.`IdUsuario` = `e`.`Fk_Id_Usuario_Empleado`))) join `ingreso_aplicacion` `ia` on((`ia`.`Fk_Id_Usuario` = `e`.`Fk_Id_Usuario_Empleado`)))

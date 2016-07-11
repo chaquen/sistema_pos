@@ -19,7 +19,7 @@ class Entrada extends ModeloBaseDeDatos{
         if($this->ejecutar_funcion_sql()){
             return array("codigo"=>"00","mensaje"=>  "Se ha creado un nuevo registro en $this->TABLA ","respuesta"=>TRUE,"nuevo_registro"=>$this->respuesta_funcion->respuesta);
         }else{
-            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE,"sentencia"=>  $this->sentencia_sql);
         }
     }  
     function crear_pedido($id,$fk_id_detalle_producto_proveedor, $cantidad_entrada, $precio_proveedorEntrada,$id_producto){
@@ -113,5 +113,14 @@ class Entrada extends ModeloBaseDeDatos{
         }
         return FALSE;
     }
+    function consultar_codigo_entrada(){
+        $this->sentencia_sql="SELECT fun_consultar_codigo_entrada() as respuesta";
+        if($this->ejecutar_funcion_sql()){
+            return array("codigo"=>"00","mensaje"=>  "Codigo generado","respuesta"=>TRUE,"codigo_factura"=>  $this->respuesta_funcion->respuesta);
+        }else{
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>FALSE);
+        }
+    }
+    
     
 }

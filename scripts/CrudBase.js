@@ -1,7 +1,7 @@
 /* INSERTAR DATOS
  * {evento_servidor} string que indica la operacion que va a realizar en el servidor
- * {datos} objeto con la estructira que voy a  enviaren la peticion HTTP
- * {funcion_depues} funccion que se realizara despues de recibir la respuesta del servidor
+ * {datos} objeto con la estructura que voy a  enviaren la peticion HTTP
+ * {funcion_depues} funcion que se realizara despues de recibir la respuesta del servidor
  * */    
 function registrarDato(evento_server,datos,funcion_despues,form){
     

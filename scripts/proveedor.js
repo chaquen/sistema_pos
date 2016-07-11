@@ -22,7 +22,7 @@ function iniciar_contexto_proveedor(){
      _btnRegistro="btnCrearProveedor";
      _btnConsulta="btnBuscarProv";
      _btnBuscarEditarProveedor="btnBusEdicionProv";
-     __btnBuscarEliminarProveedor="btnEliminarProv";
+     _btnBuscarEliminarProveedor="btnEliminarProv";
      _btnBuscarCategoriaEliminar;
      _btnEliminar;
     /*AQUI EL NOMBRE DE LOS FORMULARIOS QUE PERTENECEN A ESTE CONTEXTO*/
@@ -36,7 +36,7 @@ function iniciar_contexto_proveedor(){
    agregarEvento(_btnConsulta,"click",consultarContextoProveedor);
    
    agregarEvento(_btnBuscarEditarProveedor,"click",buscarProveedorEdicion);
-   agregarEvento(__btnBuscarEliminarProveedor,"click",buscarProveedorEliminar);
+   agregarEvento(_btnBuscarEliminarProveedor,"click",buscarProveedorEliminar);
    
 }
 

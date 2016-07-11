@@ -83,4 +83,14 @@ class Factura extends ModeloBaseDeDatos{
         }
         return FALSE;
     }
+    function consultar_impuesto($imp){
+        $this->sentencia_sql="SELECT * FROM impuestos WHERE NombreImpuesto = '$imp'";
+              
+        if($this->ejecutar_consulta_sql()){
+            //return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE);
+            return array("codigo"=>"00","mensaje"=>"Estos son los resultados de la consulta a la tabla $this->TABLA","respuesta"=>TRUE,"valores_consultados"=>$this->filas_json);
+        }else{
+            return array("codigo"=>"01","mensaje"=>  $this->mensajeDepuracion,"respuesta"=>TRUE);
+        }   
+    }
 }

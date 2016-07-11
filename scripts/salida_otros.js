@@ -26,18 +26,19 @@ function iniciar_contexto_salida_otros(){
     /*AQUI EL NOMBRE DE LOS BOTONES QUE PERTENECEN A ESTE CONTEXTO*/
     
      
-     _btnConsulta;
+     _btnConsulta="btnBuscarSalida";
      _btnAgregarAListaSalida="btnAgregarAListaSalidaOtros";
      _btnIngresarSalida="btnIngresarSalidaOtros";
     /*AQUI EL NOMBRE DE LOS FORMULARIOS QUE PERTENECEN A ESTE CONTEXTO*/
      _formRegistro;
-     _formConsulta;
+     _formConsulta="formConsultarSalida";
     
    agregarEvento(_txtNitProveedorSalida,"change",consultarProveedorSalida); 
    agregarEvento(_txtCodigoProductoSalida,"change",consultarProductoSalida); 
    agregarEvento(_btnAgregarAListaSalida,"click",agregarProductoAListaSalida); 
    agregarEvento(_btnIngresarSalida,"click",registrarContextoSalidaOtros);
-  
+   agregarEvento(_btnConsulta,"click",consultarContextoSalidaOtros);
+    
    
    
 }
@@ -74,7 +75,95 @@ function registrarContextoSalidaOtros(){
 
 /* CONSULTAR CONTEXTO */    
 function consultarContextoSalidaOtros(){
-    consultarDatos("consultar_"+_contexto,null,imprimir);   
+    var valores=obtener_valores_formulario(_formConsulta);
+    if(valores!=false){
+        consultarDatos("consultar"+_contexto,{codigo_salida:valores.Texto[0]},dibujarListaProductoConsulta);   
+    }
+    
+}
+function dibujarListaProductoConsulta(datos){
+    console.log(datos);
+    if(datos.valores_consultados!=undefined){
+        $('#resBusSalida').fadeIn('slow');
+        var div=document.getElementById("resBusSalida");
+        div.innerHTML="";
+        var tabla=document.createElement("table");
+        var cuerpo=document.createElement("tbody");
+        tabla.className="resultadoEdicionProv";
+           var fila=document.createElement("tr");
+            var celda=document.createElement("td");
+            celda.innerHTML="Codigo producto";
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
+            celda.innerHTML="Nombre producto";
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
+            celda.innerHTML="Precio venta";
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
+            celda.innerHTML="Cantidad vendida";
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
+            celda.innerHTML="Valor";
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
+            celda.className="salirRes";
+            celda.innerHTML="Salir";
+            fila.appendChild(celda);
+            cuerpo.appendChild(fila);
+        for(var d in datos.valores_consultados){
+            
+             var fila=document.createElement("tr");
+            var celda=document.createElement("td");
+            var inp=document.createElement("input");
+            inp.setAttribute("id","codProducto_"+datos.valores_consultados[d].IdFactura);
+            inp.setAttribute("type","text");
+            inp.value=datos.valores_consultados[d].CodigoProducto;
+            celda.appendChild(inp);         
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
+            var inp=document.createElement("input");
+            inp.setAttribute("type","text");
+            inp.setAttribute("id","nombreProducto_"+datos.valores_consultados[d].IdFactura);
+            inp.value=datos.valores_consultados[d].NombreProducto;
+            
+            
+            celda.appendChild(inp);         
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
+            var inp=document.createElement("input");
+            inp.setAttribute("type","text");
+            inp.setAttribute("id","precioVenta_"+datos.valores_consultados[d].IdFactura);
+            inp.value=datos.valores_consultados[d].PrecioVentaDefinitivo;
+            celda.appendChild(inp); 
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
+            var inp=document.createElement("input");
+            inp.setAttribute("type","text");
+            inp.setAttribute("id","cantVendida_"+datos.valores_consultados[d].IdFactura);
+            inp.value=datos.valores_consultados[d].Cantidad;
+            celda.appendChild(inp); 
+            fila.appendChild(celda);
+            var celda=document.createElement("td");
+            var inp=document.createElement("input");
+            inp.setAttribute("type","text");
+            inp.setAttribute("id","valorProducto_"+datos.valores_consultados[d].IdFactura);
+            inp.value=datos.valores_consultados[d].ValorProducto;
+            celda.appendChild(inp); 
+            fila.appendChild(celda);
+            
+            
+             
+            
+            
+            var celda=document.createElement("td"); 
+            fila.appendChild(celda);
+            fila.setAttribute("id",""+datos.valores_consultados[d].IdFactura);
+            cuerpo.appendChild(fila);
+        }
+        tabla.appendChild(cuerpo);
+        div.appendChild(tabla);
+    }
 }
 function consultarProveedorSalida(){
     

@@ -42,7 +42,13 @@ $(document).ready(function(){
     $('#subEntrada').mouseleave(function(){
         $('#subEntrada').fadeOut('fast');
     });
-    
+    //Menu Salida
+    $('#sal').mouseenter(function(){
+        $('#subSalida').fadeIn(500);
+    });
+    $('#subSalida').mouseleave(function(){
+        $('#subSalida').fadeOut('fast');
+    });
     //Formularios ----------------------------
     
     //Salir de los formularios
@@ -198,8 +204,11 @@ $(document).ready(function(){
     });
     
     //Formulario para la salida de mercancia
-    $('#sal').click(function(){
+    $('#crearSal').click(function(){
         $('#formSal').fadeIn('slow');
+    });
+    $('#busSal').click(function(){
+        $('#formBuscarSalida').fadeIn('slow');
     });
     
     //Formulario de la Factura
